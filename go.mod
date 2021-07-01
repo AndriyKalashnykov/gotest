@@ -1,4 +1,4 @@
-module github.com/AndriyKalashnykov/hello
+module github.com/AndriyKalashnykov/gotest
 
 go 1.16
 
