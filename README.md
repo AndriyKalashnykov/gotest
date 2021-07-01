@@ -2,6 +2,17 @@
 
 ## Installation
 
+### Binaries
+You can find prebuilt `gotest` binaries on the [releases page](https://github.com/AndriyKalashnykov/gotest/releases).
+
+You can download and install a binary locally like this:
+
+```console
+# extract gotest binary to /usr/local/bin
+# note: the "tar" command must run with root permissions
+$ curl -L -o - "https://github.com/AndriyKalashnykov/gotest/releases/latest/download/govc_$(uname -s)_$(uname -m).tar.gz" | tar -C /usr/local/bin -xvzf - gotest
+```
+
 ### Source
 
 #### Install via `go get`
@@ -18,7 +29,7 @@ $ go get -u github.com/AndriyKalashnykov/gotest
 source.
 
 If you've made local modifications to the repository at
-`$GOPATH/src/github.com/vmware/govmomi`, you can install using:
+`$GOPATH/src/github.com/AndriyKalashnykov/gotest`, you can install using:
 
 ```console
 $ go install github.com/AndriyKalashnykov/gotest
