@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	log.Println("Hello1: ", os.Getenv("USER"))
+	log.Println("Hello: ", os.Getenv("USER"))
 	calcRest := calc.Add(4, 6)
 	log.Println("add: ", calcRest)
 }
