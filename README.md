@@ -22,6 +22,7 @@ toolchain](https://golang.org/dl/). You can then install the latest `gotest` fro
 Github using:
 
 ```console
+export GO111MODULE=off
 $ go get -u github.com/AndriyKalashnykov/gotest@latest
 ```
 
@@ -32,5 +33,5 @@ If you've made local modifications to the repository at
 `$GOPATH/src/github.com/AndriyKalashnykov/gotest`, you can install using:
 
 ```console
-$ go install github.com/AndriyKalashnykov/gotest@latest
+$ go install github.com/AndriyKalashnykov/gotest
 ```
