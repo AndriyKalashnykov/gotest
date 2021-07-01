@@ -22,7 +22,7 @@ toolchain](https://golang.org/dl/). You can then install the latest `gotest` fro
 Github using:
 
 ```console
-$ go get -u github.com/AndriyKalashnykov/gotest
+$ go get -u github.com/AndriyKalashnykov/gotest@latest
 ```
 
 ⚠️ Make sure `$GOPATH/bin` is in your `PATH` to use the version installed from
@@ -32,5 +32,5 @@ If you've made local modifications to the repository at
 `$GOPATH/src/github.com/AndriyKalashnykov/gotest`, you can install using:
 
 ```console
-$ go install github.com/AndriyKalashnykov/gotest
+$ go install github.com/AndriyKalashnykov/gotest@latest
 ```
