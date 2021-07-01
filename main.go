@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/AndriyKalashnykov/hello/internal/calc"
 	"log"
 	"os"
+
+	"github.com/AndriyKalashnykov/gotest/internal/calc"
 )
 
 func main() {
