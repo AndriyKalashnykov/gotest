@@ -19,10 +19,20 @@ test-coverage-view: test
 	go tool cover -html=./bin/coverage.out
 
 install: build
-	sudo cp ./bin/gotest /usr/local/bin/
+	cp ./bin/gotest $(GOPATH)/bin/gotest
 
 clean:
-	rm -rf ./bin/gotest
-	rm -rf ./bin/coverage.out
+ifneq (,$(wildcard ./bin/gotest))
+	rm ./bin/gotest
+endif
+
+ifneq (,$(wildcard ./bin/coverage.out))
+	rm ./bin/coverage.out
+endif
+
+ifneq (,$(wildcard $(GOPATH)/bin/gotest))
 	rm $(GOPATH)/bin/gotest
+endif	
+
+clean-all: clean
 	sudo rm /usr/local/bin/gotest
