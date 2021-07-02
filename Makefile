@@ -19,7 +19,10 @@ test-coverage-view: test
 	go tool cover -html=./bin/coverage.out
 
 install: build
-	cp ./bin/gotest $(GOPATH)/bin/gotest
+	cp ./bin/gotest $(GOPATH)/bin/
+
+install-all: install
+	sudo cp ./bin/gotest /usr/local/bin/
 
 clean:
 ifneq (,$(wildcard ./bin/gotest))
@@ -37,5 +40,14 @@ endif
 clean-all: clean
 ifneq (,$(wildcard /usr/local/bin/gotest))
 	sudo rm /usr/local/bin/gotest
-endif	
-	
+endif
+
+CNT := $(shell which -a gotest | wc -l)
+EXCODE := $(shell which -a gotest | wc -l >/dev/null; echo $$?)
+RES := $(shell test $(CNT) -gt 0 && echo $$?)
+show:
+#	@echo CNT: $(CNT)
+#	@echo EXCODE: IS $(EXCODE)
+ifeq ($(RES), 0)
+	@which -a gotest
+endif
