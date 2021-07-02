@@ -35,4 +35,7 @@ ifneq (,$(wildcard $(GOPATH)/bin/gotest))
 endif	
 
 clean-all: clean
+ifneq (,$(wildcard /usr/local/bin/gotest))
 	sudo rm /usr/local/bin/gotest
+endif	
+	
