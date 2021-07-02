@@ -9,7 +9,7 @@ endif
 
 all: build
 
-build:
+build: test
 	go build -o ./bin/gotest
 
 test: build
@@ -18,10 +18,11 @@ test: build
 test-coverage-view: test
 	go tool cover -html=./bin/coverage.out
 
-install:
-	go install github.com/AndriyKalashnykov/gotest
+install: build
+	sudo cp ./bin/gotest /usr/local/bin/
 
 clean:
 	rm -rf ./bin/gotest
 	rm -rf ./bin/coverage.out
 	rm $(GOPATH)/bin/gotest
+	sudo rm /usr/local/bin/gotest
