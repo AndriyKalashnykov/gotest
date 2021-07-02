@@ -10,7 +10,7 @@ You can download and install a binary locally like this:
 ```console
 # extract gotest binary to /usr/local/bin
 # note: the "tar" command must run with root permissions
-$ curl -L -o - "https://github.com/AndriyKalashnykov/gotest/releases/latest/download/gotest_$(uname -s)_$(uname -m).tar.gz" | tar -C /usr/local/bin -xvzf - gotest
+$ curl -L -o - "https://github.com/AndriyKalashnykov/gotest/releases/latest/download/gotest_$(uname -s)_$(uname -m).tar.gz" | sudo tar -C /usr/local/bin -xvzf - gotest
 ```
 
 ### Source
