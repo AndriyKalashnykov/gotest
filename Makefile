@@ -10,27 +10,27 @@ endif
 all: build
 
 build: test
-	go build -o ./bin/gotest
+	go build -o ./.bin/gotest
 
 test: build
-	go test -v -cover  -coverprofile=./bin/coverage.out ./...
+	go test -v ./... -cover  -coverprofile=./.bin/coverage.out 
 
 test-coverage-view: test
-	go tool cover -html=./bin/coverage.out
+	go tool cover -html=./.bin/coverage.out
 
 install: build
-	cp ./bin/gotest $(GOPATH)/bin/
+	cp ./.bin/gotest $(GOPATH)/bin/
 
 install-all: install
-	sudo cp ./bin/gotest /usr/local/bin/
+	sudo cp ./.bin/gotest /usr/local/bin/
 
 clean:
-ifneq (,$(wildcard ./bin/gotest))
-	rm ./bin/gotest
+ifneq (,$(wildcard ./.bin/gotest))
+	rm ./.bin/gotest
 endif
 
-ifneq (,$(wildcard ./bin/coverage.out))
-	rm ./bin/coverage.out
+ifneq (,$(wildcard ./.bin/coverage.out))
+	rm ./.bin/coverage.out
 endif
 
 ifneq (,$(wildcard $(GOPATH)/bin/gotest))
