@@ -12,7 +12,7 @@ all: build
 build: test
 	go build -o ./.bin/gotest
 
-test: build
+test:
 	go test -v ./... -cover  -coverprofile=./.bin/coverage.out 
 
 test-coverage-view: test
