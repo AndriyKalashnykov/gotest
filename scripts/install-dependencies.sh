@@ -5,7 +5,6 @@ export GO111MODULE=off
 # Go tools
 _OS=$(go env GOOS)
 _ARCH=$(go env GOARCH)
-KubeBuilderVersion="2.3.0"
 
 if ! which patter > /dev/null; then      echo "Installing patter ..."; go get -u github.com/apg/patter; fi
 if ! which gocovmerge > /dev/null; then  echo "Installing gocovmerge..."; go get -u github.com/wadey/gocovmerge; fi
