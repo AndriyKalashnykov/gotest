@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+
+# https://github.com/open-cluster-management/clusterlifecycle-state-metrics
+# https://github.com/open-cluster-management/clusterlifecycle-state-metrics/blob/main/build/install-dependencies.sh
+
 export GO111MODULE=off
 
 # Go tools
