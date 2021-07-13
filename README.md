@@ -34,3 +34,7 @@ If you've made local modifications to the repository at
 ```bash
 $ export GO111MODULE=off; go install github.com/AndriyKalashnykov/gotest
 ```
+
+### TODO:
+
+* [go-release-action](https://github.com/wangyoucao577/go-release-action)
