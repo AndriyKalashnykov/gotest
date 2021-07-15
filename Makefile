@@ -92,5 +92,6 @@ push-tags:
 .PHONY: release
 release: generate-changelog tag push-tags
 
-#git tag -d v0.0.1
-#git push --delete origin v0.0.1
+# git tag -d v0.0.1
+# git push --delete origin v0.0.1
+# git tag -l

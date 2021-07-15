@@ -24,12 +24,16 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run tests
       run: go test -v -p=1 -timeout=0 ./...
-    - name: calc version
-      run: ./hack/generate-changelog.sh
+    - name: Set GitHub ENV variables commitSHA, dateStr, versionStr
+      id: setGithubEnvVars
+      run: |
+        echo "commitSHA=$(git describe --dirty --always)" >> $GITHUB_ENV
+        echo "dateStr=$(date +%s)" >> $GITHUB_ENV
+        echo "versionStr=$(cat VERSION)" >> $GITHUB_ENV
 
     - uses: wangyoucao577/go-release-action@v1.18
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         goos: ${{ matrix.goos }}
         goarch: ${{ matrix.goarch }}
-        ldflags: "-s -w -X main.commit=${{ env.commitSHA }} -X main.date=${{ env.dateStr }}"
+        ldflags: "-s -w -X main.commit=${{ env.commitSHA }} -X main.date=${{ env.dateStr }} -X main.version=${{ env.versionStr }}"
