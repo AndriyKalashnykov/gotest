@@ -6,7 +6,7 @@ on:
 
   push:
     tags:
-      - "*"
+      - "v*" # Push events to matching v*, i.e. v1.0, v2.0.1
 
 jobs:
   releases-matrix:
@@ -22,6 +22,8 @@ jobs:
             goos: darwin 
     steps:
     - uses: actions/checkout@v2
+    - name: Run tests
+      run: go test -v -p=1 -timeout=0 ./...
     - uses: wangyoucao577/go-release-action@v1.18
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}

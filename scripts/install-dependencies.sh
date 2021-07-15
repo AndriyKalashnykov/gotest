@@ -1,5 +1,4 @@
-#!/bin/bash -e
-
+#!/bin/bash
 
 # https://github.com/kubermatic/kubermatic
 # https://github.com/open-cluster-management/clusterlifecycle-state-metrics

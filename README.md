@@ -8,9 +8,7 @@ You can find prebuilt `gotest` binaries on the [releases page](https://github.co
 You can download and install a binary locally like this:
 
 ```bash
-# extract gotest binary to /usr/local/bin
-# note: the "tar" command must run with root permissions
-$ curl -L -o - "https://github.com/AndriyKalashnykov/gotest/releases/latest/download/gotest_$(uname -s)_$(uname -m).tar.gz" | sudo tar -C /usr/local/bin -xvzf - gotest
+./scripts/get-gotest.sh
 ```
 
 ### Source
