@@ -25,10 +25,11 @@ jobs:
     - name: Run tests
       run: go test -v -p=1 -timeout=0 ./...
     - name: calc version
-        run: ./hack/generate-changelog.sh
-        - uses: wangyoucao577/go-release-action@v1.18
+      run: ./hack/generate-changelog.sh
+
+    - uses: wangyoucao577/go-release-action@v1.18
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         goos: ${{ matrix.goos }}
         goarch: ${{ matrix.goarch }}
-        ldflags: "-s -w -X main.commit=${{ env.commitSHA }} -X main.date=${{ env.dateStr }}""
+        ldflags: "-s -w -X main.commit=${{ env.commitSHA }} -X main.date=${{ env.dateStr }}"
