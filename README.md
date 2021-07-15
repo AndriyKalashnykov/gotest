@@ -8,7 +8,7 @@ You can find prebuilt `gotest` binaries on the [releases page](https://github.co
 You can download and install a binary locally like this:
 
 ```bash
-./scripts/get-gotest.sh
+./hack/get-gotest.sh
 ```
 
 ### Source
