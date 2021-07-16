@@ -27,7 +27,7 @@ jobs:
       id: setGithubEnvVars
       run: |
         echo "commitSHA=$(git describe --dirty --always)" >> $GITHUB_ENV
-        echo "dateStr=$(date +%s)" >> $GITHUB_ENV
+        echo "dateStr=$(date +%m-%d-%Y)" >> $GITHUB_ENV
         echo "versionStr=$(cat VERSION)" >> $GITHUB_ENV
 
     - uses: wangyoucao577/go-release-action@v1.18

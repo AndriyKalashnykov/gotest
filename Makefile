@@ -7,7 +7,7 @@ endif
 
 commitSHA=$(shell git describe --dirty --always)
 dateStr=$(shell date +%s)
-DATE := $(shell /bin/date +%Y%m%d)
+DATE := $(shell /bin/date +%m-%d-%Y)
 GO111MODULE=on
 
 .PHONY: deps
@@ -34,7 +34,7 @@ test-coverage-view: test
 	go tool cover -html=./.bin/coverage.out
 
 build: test
-	go build -ldflags "-X main.commit=${commitSHA} -X main.date=${dateStr}" -o ./.bin/gotest
+	go build -ldflags "-X main.commit=${commitSHA} -X main.date=${DATE}" -o ./.bin/gotest
 
 install: build
 	cp ./.bin/gotest $(GOPATH)/bin/
@@ -76,8 +76,7 @@ endif
 
 .PHONY: run
 run: build
-	./.bin/gotest version -s | grep 'Version:' | awk '{printf("%s",$3)}'
-#
+	./.bin/gotest version -s
 
 .PHONY: generate-changelog
 generate-changelog:

@@ -24,7 +24,7 @@ if [ -z "${VERSION_TO_INSTALL}" ]; then
 fi
 
 if [ -f "$BIN_DIR/$PROJECT" ]; then
-    VERSION_INSTALLED=$($BIN_DIR/$PROJECT version -s | grep 'Version:' | awk '{printf("%s",$2)}')
+    VERSION_INSTALLED=$($BIN_DIR/$PROJECT version -s | grep 'Version:' | awk '{printf("%s",$2)}' | sed 's/.*://' | sed 's/[^0-9.]*//g')
 fi
 
 # echo "VERSION_TO_INSTALL: $VERSION_TO_INSTALL"
