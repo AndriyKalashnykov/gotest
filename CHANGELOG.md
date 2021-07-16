@@ -64,3 +64,9 @@
 * [view commit](http://github.com/AndriyKalashnykov/gotest/commit/f6b36f33b270d5a97e6b56dabfecc9b586483363) Version v0.0.1
 <!-- END v0.0.1 -->
 
+<!-- START v0.0.0 -->
+## v0.0.0
+
+
+<!-- END v0.0.0 -->
+
