@@ -9,7 +9,7 @@ on:
 jobs:
   releases-matrix:
     name: Release Go Binary
-    runs-on: ubuntu-latest
+
     strategy:
       matrix:
         # build and publish in parallel: linux/386, linux/amd64, windows/386, windows/amd64, darwin/amd64 
@@ -17,7 +17,8 @@ jobs:
         goarch: ["386", amd64]
         exclude:  
           - goarch: "386"
-            goos: darwin 
+            goos: darwin
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Run tests
@@ -32,6 +33,7 @@ jobs:
     - uses: wangyoucao577/go-release-action@v1.18
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        goversion: 1.16
         goos: ${{ matrix.goos }}
         goarch: ${{ matrix.goarch }}
         ldflags: "-s -w -X main.commit=${{ env.commitSHA }} -X main.date=${{ env.dateStr }} -X main.version=${{ env.versionStr }}"
