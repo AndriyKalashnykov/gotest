@@ -4,9 +4,9 @@ on:
   release:
     types: [created]
 
-  push:
-    tags:
-      - "v*" # Push events to matching v*, i.e. v1.0, v2.0.1
+#  push:
+#    tags:
+#      - "v*" # Push events to matching v*, i.e. v1.0, v2.0.1
 
 jobs:
   releases-matrix:
