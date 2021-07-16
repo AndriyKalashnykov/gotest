@@ -1,5 +1,3 @@
-TEST_PATH ?= /tmp/gotest
-
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
 GOBIN=$(shell go env GOPATH)/bin
@@ -9,6 +7,8 @@ endif
 
 commitSHA=$(shell git describe --dirty --always)
 dateStr=$(shell date +%s)
+DATE := $(shell /bin/date +%Y%m%d)
+GO111MODULE=on
 
 .PHONY: deps
 deps:
@@ -17,6 +17,7 @@ deps:
 	@go get -u github.com/spf13/viper
 	@go get -u github.com/spf13/cobra
 	@go get -u go.hein.dev/go-version
+	@go get -u github.com/hashicorp/hcl
 
 .PHONY: all
 all: test
@@ -33,7 +34,6 @@ test-coverage-view: test
 	go tool cover -html=./.bin/coverage.out
 
 build: test
-
 	go build -ldflags "-X main.commit=${commitSHA} -X main.date=${dateStr}" -o ./.bin/gotest
 
 install: build
@@ -76,7 +76,7 @@ endif
 
 .PHONY: run
 run: build
-	./.bin/gotest version -s | grep 'Version:' | awk '{printf("%s",$3)}'
+	$(shell ./.bin/gotest version -s | grep 'Version:' | awk '{printf("%s",$2)}')
 
 .PHONY: generate-changelog
 generate-changelog:
@@ -92,6 +92,21 @@ push-tags:
 .PHONY: release
 release: generate-changelog tag push-tags
 
+.PHONY: delete-local-tags
+delete-local-tags:
+	./hack/delete-local-tags.sh
+
+.PHONY: delete-remote-tags
+delete-remote-tags:
+	./hack/delete-remote-tags.sh
+
+.PHONY: delete-all-tags
+delete-all-tags: delete-local-tags delete-remote-tags delete-local-tags
+	echo "v0.0.0" > VERSION
+
+# get tag v0.0.1
 # git tag -d v0.0.1
 # git push --delete origin v0.0.1
 # git tag -l
+# git ls-remote --tags -q
+# git ls-remote origin | cut -f 2 | grep -iv head | xargs git push --delete origin

@@ -25,3 +25,11 @@
 * [view commit](http://github.com/AndriyKalashnykov/gotest/commit/8523122b13f119c427e46c5dd67ab51b6160bb05) version v0.0.2
 <!-- END v0.0.2 -->
 
+<!-- START v0.0.3 -->
+## v0.0.3
+
+* [view commit](http://github.com/AndriyKalashnykov/gotest/commit/5854e6bff6f6c83296d91e060e7e5435941b9d7c) version v0.0.2
+* [view commit](http://github.com/AndriyKalashnykov/gotest/commit/4510900954bc42f39d7c18d653213ccde197ef0b) updated flow
+* [view commit](http://github.com/AndriyKalashnykov/gotest/commit/53664780b687679879126356a918788cf2e9273b) version v0.0.3
+<!-- END v0.0.3 -->
+
