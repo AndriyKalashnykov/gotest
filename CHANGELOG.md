@@ -57,3 +57,10 @@
 * [view commit](http://github.com/AndriyKalashnykov/gotest/commit/b440c94b64e256528562bb88d7cfe308658cf146) reset 0.0.0
 <!-- END v0.0.0 -->
 
+<!-- START v0.0.1 -->
+## v0.0.1
+
+* [view commit](http://github.com/AndriyKalashnykov/gotest/commit/b440c94b64e256528562bb88d7cfe308658cf146) reset 0.0.0
+* [view commit](http://github.com/AndriyKalashnykov/gotest/commit/f6b36f33b270d5a97e6b56dabfecc9b586483363) Version v0.0.1
+<!-- END v0.0.1 -->
+
