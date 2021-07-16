@@ -35,4 +35,5 @@ $ export GO111MODULE=off; go install github.com/AndriyKalashnykov/gotest
 
 ### TODO:
 
-* [go-release-action](https://github.com/wangyoucao577/go-release-action)
+* [random-standup](https://github.com/jidicula/random-standup/tree/main/.github/workflows)
+* [create-go-app/cli](https://github.com/create-go-app/cli)
