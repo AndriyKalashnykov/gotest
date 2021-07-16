@@ -39,3 +39,9 @@
 * [view commit](http://github.com/AndriyKalashnykov/gotest/commit/48bab9e36ac885797bee5773cfbb5530c8d3a659) reset
 <!-- END v0.0.0 -->
 
+<!-- START v0.0.0 -->
+## v0.0.0
+
+
+<!-- END v0.0.0 -->
+
