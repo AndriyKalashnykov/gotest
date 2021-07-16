@@ -33,3 +33,9 @@
 * [view commit](http://github.com/AndriyKalashnykov/gotest/commit/53664780b687679879126356a918788cf2e9273b) version v0.0.3
 <!-- END v0.0.3 -->
 
+<!-- START v0.0.0 -->
+## v0.0.0
+
+* [view commit](http://github.com/AndriyKalashnykov/gotest/commit/48bab9e36ac885797bee5773cfbb5530c8d3a659) reset
+<!-- END v0.0.0 -->
+
