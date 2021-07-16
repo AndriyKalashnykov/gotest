@@ -27,8 +27,8 @@ if [ -f "$BIN_DIR/$PROJECT" ]; then
     VERSION_INSTALLED=$($BIN_DIR/$PROJECT version -s | grep 'Version:' | awk '{printf("%s",$2)}')
 fi
 
- echo "VERSION_TO_INSTALL: $VERSION_TO_INSTALL"
- echo "VERSION_INSTALLED: $VERSION_INSTALLED"
+# echo "VERSION_TO_INSTALL: $VERSION_TO_INSTALL"
+# echo "VERSION_INSTALLED: $VERSION_INSTALLED"
 
 if [ "${VERSION_TO_INSTALL}" != "${VERSION_INSTALLED}" ]; then
     if [ -z $VERSION_INSTALLED ]; then
