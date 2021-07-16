@@ -76,7 +76,8 @@ endif
 
 .PHONY: run
 run: build
-	$(shell ./.bin/gotest version -s | grep 'Version:' | awk '{printf("%s",$2)}')
+	./.bin/gotest version -s | grep 'Version:' | awk '{printf("%s",$3)}'
+#
 
 .PHONY: generate-changelog
 generate-changelog:

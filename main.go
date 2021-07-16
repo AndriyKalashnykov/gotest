@@ -5,9 +5,14 @@ import (
 	"log"
 	"os"
 )
+
 func main() {
 	Execute()
-	log.Println("Hello : ", os.Getenv("USER"))
-	calcRest := calc.Add(4, 6)
-	log.Println("add: ", calcRest)
+
+	if 2 == 1 {
+		log.Println("Hello : ", os.Getenv("USER"))
+		calcRest := calc.Add(4, 6)
+		log.Println("add: ", calcRest)
+	}
+
 }
