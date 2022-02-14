@@ -35,6 +35,14 @@ If you've made local modifications to the repository at
 $ export GO111MODULE=off; go install github.com/AndriyKalashnykov/gotest
 ```
 
+
+### Build from sources
+
+```bash
+git clone git@github.com:AndriyKalashnykov/gotest.git
+cd gotest
+docker run --rm -v `pwd`:/host golang:1.17 bash -c "cd /host && go build ."
+```
 ### TODO:
 
 * [random-standup](https://github.com/jidicula/random-standup/tree/main/.github/workflows)
