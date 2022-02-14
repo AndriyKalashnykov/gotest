@@ -20,7 +20,7 @@ jobs:
             goos: darwin
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2.4.0
     - name: Run tests
       run: go test -v -p=1 -timeout=0 ./...
     - name: Set GitHub ENV variables commitSHA, dateStr, versionStr
@@ -30,10 +30,10 @@ jobs:
         echo "dateStr=$(date +%m-%d-%Y)" >> $GITHUB_ENV
         echo "versionStr=$(cat VERSION)" >> $GITHUB_ENV
 
-    - uses: wangyoucao577/go-release-action@v1.18
+    - uses: wangyoucao577/go-release-action@v1.24
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        goversion: 1.16
+        goversion: 1.17
         goos: ${{ matrix.goos }}
         goarch: ${{ matrix.goarch }}
         ldflags: "-s -w -X main.commit=${{ env.commitSHA }} -X main.date=${{ env.dateStr }} -X main.version=${{ env.versionStr }}"
