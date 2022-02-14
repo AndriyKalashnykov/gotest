@@ -94,3 +94,11 @@
 
 <!-- END v0.0.5 -->
 
+<!-- START v0.0.6 -->
+## v0.0.6
+
+* [view commit](http://github.com/AndriyKalashnykov/gotest/commit/2828cacaa9cd683157b1cf920fbb32e8998301f2) Create go.yml
+* [view commit](http://github.com/AndriyKalashnykov/gotest/commit/ab57c8c4836cf2534c9e67c980a9c6b5176e1d26) Updated README - added Build badge
+* [view commit](http://github.com/AndriyKalashnykov/gotest/commit/e46d3a89050a605dc76cdc7569cab00bf3740424) Updated README - added Release badge
+<!-- END v0.0.6 -->
+
