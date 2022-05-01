@@ -12,15 +12,15 @@ GO111MODULE=on
 
 .PHONY: deps
 deps:
-	@go get golang.org/x/lint/golint
-	@go get -u github.com/mitchellh/go-homedir
-	@go get -u github.com/spf13/viper
-	@go get -u github.com/spf13/cobra
-	@go get -u go.hein.dev/go-version
-	@go get -u github.com/hashicorp/hcl
+	@go install golang.org/x/lint/golint@latest
+	@go get -d github.com/mitchellh/go-homedir@latest
+	@go get -d github.com/spf13/viper@latest
+	@go get -d github.com/spf13/cobra@latest
+	@go get -d go.hein.dev/go-version@latest
+	@go get -d github.com/hashicorp/hcl@latest
 
 .PHONY: all
-all: test
+all: build
 
 .PHONY: lint
 lint:
