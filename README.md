@@ -1,5 +1,6 @@
 [![Go Build](https://github.com/AndriyKalashnykov/gotest/actions/workflows/go.yml/badge.svg)](https://github.com/AndriyKalashnykov/gotest/actions/workflows/go.yml)
 [![Release Go project](https://github.com/AndriyKalashnykov/gotest/actions/workflows/release.yml/badge.svg)](https://github.com/AndriyKalashnykov/gotest/actions/workflows/release.yml)
+[![codecov](https://codecov.io/gh/AndriyKalashnykov/gotest/branch/master/graph/badge.svg?token=Q12E11KJ74)](https://codecov.io/gh/AndriyKalashnykov/gotest)
 [![Open in Visual Studio Code](https://img.shields.io/static/v1?logo=visualstudiocode&label=&message=Open%20in%20Visual%20Studio%20Code&labelColor=2c2c32&color=007acc&logoColor=007acc)](https://open.vscode.dev/AndriyKalashnykov/gotest)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FAndriyKalashnykov%2Fgotest&count_bg=%2333CD56&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 # Test project in Go
