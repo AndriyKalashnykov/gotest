@@ -12,6 +12,15 @@ func TestAdd(t *testing.T) {
 	}
 }
 
-func TestTest(t *testing.T)  {
+func TestSubtract(t *testing.T) {
+	got := Subtract(4, 6)
+	want := -2
+
+	if got != want {
+		t.Errorf("got %q, wanted %q", got, want)
+	}
+}
+
+func TestTest(t *testing.T) {
 	test()
 }
