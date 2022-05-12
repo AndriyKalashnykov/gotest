@@ -18,24 +18,14 @@ You can download and install a binary locally like this:
 
 ### Source
 
-#### Install via `go get`
+#### Native Go installation:
 
 To build `gotest` from source, first install the [Go
 toolchain](https://golang.org/dl/). You can then install the latest `gotest` from
 Github using:
 
 ```bash
-$ export GO111MODULE=off; go get -u github.com/AndriyKalashnykov/gotest
-```
-
-⚠️ Make sure `$GOPATH/bin` is in your `PATH` to use the version installed from
-source.
-
-If you've made local modifications to the repository at
-`$GOPATH/src/github.com/AndriyKalashnykov/gotest`, you can install using:
-
-```bash
-$ export GO111MODULE=off; go install github.com/AndriyKalashnykov/gotest
+$ export GO111MODULE=on; go install github.com/AndriyKalashnykov/gotest@latest
 ```
 
 ### Build from sources
