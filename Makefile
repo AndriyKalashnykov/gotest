@@ -105,9 +105,13 @@ delete-remote-tags:
 delete-all-tags: delete-local-tags delete-remote-tags delete-local-tags
 	echo "v0.0.0" > VERSION
 
-# get tag v0.0.1
-# git tag -d v0.0.1
-# git push --delete origin v0.0.1
+delete-current-tag:
+	git tag -d ${VERSION}
+	git tag -d ${VERSION}
+
+# get tag v0.0.8
+# git tag -d v0.0.8
+# git push --delete origin v0.0.8
 # git tag -l
 # git ls-remote --tags -q
 # git ls-remote origin | cut -f 2 | grep -iv head | xargs git push --delete origin
