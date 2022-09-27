@@ -1,4 +1,4 @@
-[![Go Build](https://github.com/AndriyKalashnykov/gotest/actions/workflows/go.yml/badge.svg)](https://github.com/AndriyKalashnykov/gotest/actions/workflows/go.yml)
+[![Go](https://github.com/AndriyKalashnykov/gotest/actions/workflows/ci.yml/badge.svg)](https://github.com/AndriyKalashnykov/gotest/actions/workflows/ci.yml)
 [![Release Go project](https://github.com/AndriyKalashnykov/gotest/actions/workflows/release.yml/badge.svg)](https://github.com/AndriyKalashnykov/gotest/actions/workflows/release.yml)
 [![codecov](https://codecov.io/gh/AndriyKalashnykov/gotest/branch/master/graph/badge.svg?token=Q12E11KJ74)](https://codecov.io/gh/AndriyKalashnykov/gotest)
 [![Open in Visual Studio Code](https://img.shields.io/static/v1?logo=visualstudiocode&label=&message=Open%20in%20Visual%20Studio%20Code&labelColor=2c2c32&color=007acc&logoColor=007acc)](https://open.vscode.dev/AndriyKalashnykov/gotest)
