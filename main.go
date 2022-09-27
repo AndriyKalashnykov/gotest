@@ -28,6 +28,7 @@ func SortPrint(m map[string]interface{}) {
 func main() {
 
 	//Execute()
+	fmt.Println("Version:\t", Version)
 
 	if 2 == 1 {
 		log.Println("Hello : ", os.Getenv("USER"))

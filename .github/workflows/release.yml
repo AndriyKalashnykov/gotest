@@ -6,27 +6,26 @@ on:
       - '*'
 # https://github.com/jidicula/random-standup
 # https://github.com/jidicula/random-standup/blob/main/.github/workflows/release-draft.yml
-
 jobs:
   goreleaser:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
-    - name: Run tests
-      run: go test -v -p=1 -timeout=0 ./...
-    - name: Set GitHub ENV variables commitSHA, dateStr, versionStr
+      uses: actions/checkout@v3.0.2
+      with:
+        fetch-depth: 0
+    - name: Set up Go
+      uses: actions/setup-go@v3.3.0
+      with:
+        go-version: 1.18
+    - name: Set GitHub ENV vars
       id: setGithubEnvVars
       run: |
         echo "commitSHA=$(git describe --always)" >> $GITHUB_ENV
         echo "dateStr=$(date +%m-%d-%Y)" >> $GITHUB_ENV
         echo "versionStr=$(cat VERSION)" >> $GITHUB_ENV
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: 1.18
     - name: Run GoReleaser
-      uses: goreleaser/goreleaser-action@v3
+      uses: goreleaser/goreleaser-action@v3.1.0
       with:
         version: latest
         args: release --rm-dist -f  ./.goreleaser.yml

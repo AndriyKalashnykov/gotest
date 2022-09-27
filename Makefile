@@ -107,7 +107,7 @@ delete-all-tags: delete-local-tags delete-remote-tags delete-local-tags
 
 delete-current-tag:
 	git tag -d ${VERSION}
-	git tag -d ${VERSION}
+	git push --delete origin ${VERSION}
 
 # get tag v0.0.8
 # git tag -d v0.0.8
