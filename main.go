@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-const Version = "v0.0.7"
+const Version = "v0.0.8"
 
 func SortPrint(m map[string]interface{}) {
 	keys := make([]string, 0, len(m))
