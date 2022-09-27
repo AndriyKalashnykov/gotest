@@ -9,7 +9,7 @@ commitSHA=$(shell git describe --dirty --always)
 dateStr=$(shell date +%s)
 DATE := $(shell /bin/date +%m-%d-%Y)
 
-VERSION := $(shell cat ./cmd/version.go | grep "const Version ="| cut -d"\"" -f2)
+VERSION := $(shell cat ./main.go | grep "const Version ="| cut -d"\"" -f2)
 
 deps:
 	@go install golang.org/x/lint/golint@latest
@@ -81,7 +81,20 @@ tag:
 push-tags:
 	@git push --tags
 
-release: generate-changelog tag push-tags
+release: clean
+	@echo -n "Are you sure to create and push ${VERSION} tag? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@git commit -a -s -m "Cut ${VERSION} release"
+	@git tag ${VERSION}
+	@git push origin ${VERSION}
+	@git push
+
+#update: @ Update dependency packages to latest versions
+update:
+	@export GOPRIVATE=$(GOPRIVATE); export GOFLAGS=$(GOFLAGS); go get -u; go mod tidy
+
+#version: @ Print current version(tag)
+version:
+	@echo ${VERSION}
 
 delete-local-tags:
 	./hack/delete-local-tags.sh
