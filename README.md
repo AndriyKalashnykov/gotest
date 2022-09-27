@@ -25,7 +25,7 @@ toolchain](https://golang.org/dl/). You can then install the latest `gotest` fro
 Github using:
 
 ```bash
-$ export GO111MODULE=on; go install github.com/AndriyKalashnykov/gotest@latest
+$ go install github.com/AndriyKalashnykov/gotest@latest
 ```
 
 ### Build from sources

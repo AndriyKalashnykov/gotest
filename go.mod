@@ -26,6 +26,7 @@ require (
 	github.com/spf13/viper v1.12.0
 	github.com/ugorji/go/codec v0.0.0-20181204163529-d75b2dcb6bc8 // indirect
 	github.com/volatiletech/null/v8 v8.1.2 // indirect
+	github.com/worldline-go/struct2 v1.1.0
 	github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77 // indirect
 	go.hein.dev/go-version v0.1.0
 	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
