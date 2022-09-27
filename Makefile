@@ -8,9 +8,9 @@ endif
 commitSHA=$(shell git describe --dirty --always)
 dateStr=$(shell date +%s)
 DATE := $(shell /bin/date +%m-%d-%Y)
-GO111MODULE=on
 
-.PHONY: deps
+VERSION := $(shell cat ./cmd/version.go | grep "const Version ="| cut -d"\"" -f2)
+
 deps:
 	@go install golang.org/x/lint/golint@latest
 	@go get -d github.com/mitchellh/go-homedir@latest
@@ -19,10 +19,8 @@ deps:
 	@go get -d go.hein.dev/go-version@latest
 	@go get -d github.com/hashicorp/hcl@latest
 
-.PHONY: all
 all: build
 
-.PHONY: lint
 lint:
 	@golint -set_exit_status ./...
 
@@ -42,7 +40,6 @@ install: build
 install-all: install
 	sudo cp ./.bin/gotest /usr/local/bin/
 
-.PHONY: clean
 clean:
 ifneq (,$(wildcard ./.bin/gotest))
 	rm ./.bin/gotest
@@ -56,7 +53,6 @@ ifneq (,$(wildcard $(GOPATH)/bin/gotest))
 	rm $(GOPATH)/bin/gotest
 endif	
 
-.PHONY: clean-all
 clean-all: clean
 ifneq (,$(wildcard /usr/local/bin/gotest))
 	sudo rm /usr/local/bin/gotest
@@ -66,7 +62,6 @@ CNT := $(shell which -a gotest | wc -l)
 EXCODE := $(shell which -a gotest | wc -l >/dev/null; echo $$?)
 RES := $(shell test $(CNT) -gt 0 && echo $$?)
 
-.PHONY: show
 show:
 #	@echo CNT: $(CNT)
 #	@echo EXCODE: IS $(EXCODE)
@@ -74,33 +69,26 @@ ifeq ($(RES), 0)
 	@which -a gotest
 endif
 
-.PHONY: run
 run: build
 	./.bin/gotest version -s
 
-.PHONY: generate-changelog
 generate-changelog:
 	./hack/generate-changelog.sh
 
-.PHONY: tag
 tag:
 	./hack/tag-release.sh
 
 push-tags:
 	@git push --tags
 
-.PHONY: release
 release: generate-changelog tag push-tags
 
-.PHONY: delete-local-tags
 delete-local-tags:
 	./hack/delete-local-tags.sh
 
-.PHONY: delete-remote-tags
 delete-remote-tags:
 	./hack/delete-remote-tags.sh
 
-.PHONY: delete-all-tags
 delete-all-tags: delete-local-tags delete-remote-tags delete-local-tags
 	echo "v0.0.0" > VERSION
 

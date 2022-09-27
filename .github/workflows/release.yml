@@ -1,26 +1,18 @@
 name: Release Go project
 
 on:
-  release:
-    types: [created]
+  push:
+    tags:
+      - '*'
 # https://github.com/jidicula/random-standup
 # https://github.com/jidicula/random-standup/blob/main/.github/workflows/release-draft.yml
 
 jobs:
-  releases-matrix:
-    name: Release Go Binary
-
-    strategy:
-      matrix:
-        # build and publish in parallel: linux/386, linux/amd64, windows/386, windows/amd64, darwin/amd64 
-        goos: [linux, windows, darwin]
-        goarch: ["386", amd64]
-        exclude:  
-          - goarch: "386"
-            goos: darwin
+  goreleaser:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2.4.0
+    - name: Checkout
+      uses: actions/checkout@v3
     - name: Run tests
       run: go test -v -p=1 -timeout=0 ./...
     - name: Set GitHub ENV variables commitSHA, dateStr, versionStr
@@ -29,11 +21,22 @@ jobs:
         echo "commitSHA=$(git describe --always)" >> $GITHUB_ENV
         echo "dateStr=$(date +%m-%d-%Y)" >> $GITHUB_ENV
         echo "versionStr=$(cat VERSION)" >> $GITHUB_ENV
-
-    - uses: wangyoucao577/go-release-action@v1.24
+    - name: Set up Go
+      uses: actions/setup-go@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        goversion: 1.17
-        goos: ${{ matrix.goos }}
-        goarch: ${{ matrix.goarch }}
-        ldflags: "-s -w -X main.commit=${{ env.commitSHA }} -X main.date=${{ env.dateStr }} -X main.version=${{ env.versionStr }}"
+        go-version: 1.18
+    - name: Run GoReleaser
+      uses: goreleaser/goreleaser-action@v3
+      with:
+        version: latest
+        args: release --rm-dist -f  ./.goreleaser.yml
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+#    - uses: wangyoucao577/go-release-action@v1.24
+#      with:
+#        github_token: ${{ secrets.GITHUB_TOKEN }}
+#        goversion: 1.17
+#        goos: ${{ matrix.goos }}
+#        goarch: ${{ matrix.goarch }}
+#        ldflags: "-s -w -X main.commit=${{ env.commitSHA }} -X main.date=${{ env.dateStr }} -X main.version=${{ env.versionStr }}"
