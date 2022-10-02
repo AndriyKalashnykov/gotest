@@ -18,6 +18,7 @@ PROJECT=gotest
 
 # ./get-gotest.sh 0.0.1
 # wget https://github.com/AndriyKalashnykov/gotest/releases/download/v0.0.9/gotest_v0.0.9_Linux_x86_64.tar.gz
+#      https://github.com/AndriyKalashnykov/gotest/releases/download/v0.0.9/gotest-v0.0.9-Linux-x86_64.tar.gz
 # curl -sfL  https://raw.githubusercontent.com/AndriyKalashnykov/gotest/master/hack/get-gotest.sh | bash -s 0.0.9
 
 sudo -v
@@ -25,24 +26,8 @@ sudo -v
 cd $TMP_DIR
 
 OS=$(echo $(uname))
-OS_LC=$(echo $(uname) | awk '{print tolower($0)}')
-ARCH_ORIG=$(uname -m) ;
-
-echo $OS_LC
-
-case "$ARCH_ORIG" in
-"amd64")  ARCH="amd64"
-	  ;;
-"x86_64") ARCH="amd64"
-	  ;;
-"i386")   ARCH="386"
-	  ;;
-"386")    ARCH="386"
-	  ;;
-*)        ARCH="NONE"
-	  ;;
-esac
-
+OS_LC=$(echo $(uname))
+ARCH=$(uname -m) ;
 
 if [ -z "${VERSION_TO_INSTALL}" ]; then
     VERSION_TO_INSTALL=$(curl -sL https://api.github.com/repos/$USER/$PROJECT/releases/latest  | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's/^.//')
@@ -62,8 +47,7 @@ if [ "${VERSION_TO_INSTALL}" != "${VERSION_INSTALLED}" ]; then
         echo "Replacing $PROJECT: $VERSION_INSTALLED > $VERSION_TO_INSTALL"
     fi
 
-    echo "https://github.com/$USER/$PROJECT/releases/download/v${VERSION_TO_INSTALL}/${PROJECT}-v${VERSION_TO_INSTALL}-${OS_LC}-${ARCH}${TAR_GZ_EXT}"
-    curl -sSLf "https://github.com/$USER/$PROJECT/releases/download/v${VERSION_TO_INSTALL}/${PROJECT}-v${VERSION_TO_INSTALL}-${OS_LC}-${ARCH}${TAR_GZ_EXT}" | sudo tar -zx -C $BIN_DIR ${PROJECT}
+    curl -sSLf "https://github.com/$USER/$PROJECT/releases/download/v${VERSION_TO_INSTALL}/${PROJECT}_v${VERSION_TO_INSTALL}_${OS_LC}_${ARCH}${TAR_GZ_EXT}" | sudo tar -zx -C $BIN_DIR ${PROJECT}
   else
     echo "$PROJECT $VERSION_TO_INSTALL already installed"
 fi
