@@ -8,6 +8,7 @@
 ## Installation
 
 ### Binaries
+
 You can find prebuilt `gotest` binaries on the [releases page](https://github.com/AndriyKalashnykov/gotest/releases).
 
 You can download and install a binary locally like this:
