@@ -3,7 +3,12 @@
 #set -x
 
 LAUNCH_DIR=$(pwd); SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd $SCRIPT_DIR; cd ..; SCRIPT_PARENT_DIR=$(pwd);
-. $SCRIPT_DIR/set-env.sh
+
+MP_DIR=/tmp
+LOCAL_DIR=/usr/local
+BIN_DIR=$LOCAL_DIR/bin
+TGZ_EXT=.tgz
+TAR_GZ_EXT=.tar.gz
 
 VERSION_TO_INSTALL=${1:-}
 VERSION_INSTALLED=""
@@ -12,8 +17,8 @@ USER=AndriyKalashnykov
 PROJECT=gotest
 
 # ./get-gotest.sh 0.0.1
-# https://github.com/goreleaser/goreleaser/releases
-# curl -sSLf https://github.com/AndriyKalashnykov/gotest/releases/download/v0.0.1/gotest-v0.0.1-linux-386.tar.gz
+# wget https://github.com/AndriyKalashnykov/gotest/releases/download/v0.0.9/gotest_v0.0.9_Linux_x86_64.tar.gz
+# curl -sfL  https://raw.githubusercontent.com/AndriyKalashnykov/gotest/master/hack/get-gotest.sh | VERSION=v0.0.9 bash -s -- check
 
 sudo -v
 

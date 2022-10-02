@@ -26,7 +26,7 @@ toolchain](https://golang.org/dl/). You can then install the latest `gotest` fro
 Github using:
 
 ```bash
-$ go install github.com/AndriyKalashnykov/gotest@latest
+go install github.com/AndriyKalashnykov/gotest@latest
 ```
 
 ### Build from sources
@@ -34,8 +34,27 @@ $ go install github.com/AndriyKalashnykov/gotest@latest
 ```bash
 git clone git@github.com:AndriyKalashnykov/gotest.git
 cd gotest
-docker run --rm -v `pwd`:/host golang:1.17 bash -c "cd /host && go build ."
+docker run --rm -v `pwd`:/host golang:1.18 bash -c "cd /host && go build ."
 ```
+
+### Docker Image
+
+```bash
+docker pull ghcr.io/nukleros/operator-builder
+```
+
+#### One-shot container use
+
+```bash
+docker run --rm -v "${PWD}":/workdir ghcr.io/andriykalashnykov/gotest [flags]
+```
+
+#### Run container commands interactively
+
+```bash
+docker run --rm -it -v "${PWD}":/workdir --entrypoint sh ghcr.io/andriykalashnykov/gotest
+```
+
 
 ### Create release
 
