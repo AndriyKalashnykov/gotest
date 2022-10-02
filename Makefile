@@ -72,7 +72,7 @@ endif
 run: build
 	@./.bin/gotest version
 
-image:
+image: build
 	docker build -t gotest  .
 
 generate-changelog:

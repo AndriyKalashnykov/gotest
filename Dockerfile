@@ -1,23 +1,14 @@
-FROM golang:1.18 as builder
+## NOTE: This image uses goreleaser to build image
+# if building manually please run: go build  -o ./.bin/gotest
 
-ARG GH_ACCESS_TOKEN
+# Choose alpine as a base image to make this useful for CI, as many
+# CI tools expect an interactive shell inside the container
+FROM alpine:latest as production
 
-WORKDIR /source
-# Copy the Go Modules manifests
-COPY go.mod go.mod
-COPY go.sum go.sum
-# Cache deps before building and copying source so that we don't need to re-download
-# as much and so that source changes don't invalidate our downloaded layer
-RUN GOCACHE=OFF
-RUN go mod download
+COPY ./.bin/gotest /usr/bin/gotest
+RUN chmod +x /usr/bin/gotest
 
-# Copy source code
-COPY main.go main.go
-COPY internal/ internal/
+WORKDIR /workdir
 
-# Build
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o gotest main.go
-
-FROM scratch
-COPY --from=builder /source/gotest /gotest
-CMD ["/gotest"]
+ENTRYPOINT ["/usr/bin/gotest"]
+CMD ["--help"]
