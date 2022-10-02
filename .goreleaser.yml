@@ -1,15 +1,15 @@
 # This is an example goreleaser.yaml file with some sane defaults.
 # Make sure to check the documentation at http://goreleaser.com
 builds:
-  - env:
+  - id: gotest
+    env:
       - CGO_ENABLED=0
     goos:
-      - darwin
-      - windows
       - linux
-    goarch:
-      - amd64
-      - arm64
+      - windows
+      - darwin
+    main: ./
+    binary: gotest
     ldflags:
       - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}} '-static'
 archives:
@@ -25,28 +25,6 @@ archives:
         format: zip
     files:
       - README.md
-dockers:
-  - id: tools
-    goos: linux
-    goarch: amd64
-    ids:
-      - jsontoml
-      - tomljson
-      - tomll
-    image_templates:
-      - "ghcr.io/andriykalashnykov/gotest:latest"
-      - "ghcr.io/andriykalashnykov/gotest:{{ .Tag }}"
-    dockerfile: Dockerfile
-    build_flag_templates:
-      - "--label=org.opencontainers.image.created={{.Date}}"
-      - "--label=org.opencontainers.image.name={{.ProjectName}}"
-      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-      - "--label=org.opencontainers.image.version={{.Version}}"
-      - "--label=org.opencontainers.image.source={{.GitURL}}"
-      - "--label=org.opencontainers.image.licenses=MIT"
-      - "--label=VERSION={{.Version}}"
-      - "--platform=linux/amd64"
-    skip_push: false
 checksum:
   name_template: 'checksums.txt'
 snapshot:
@@ -61,3 +39,18 @@ changelog:
       - '^ci(\(.*\))?:'
       - '^chore(\(.*\))?:'
       - '^build(\(.*\))?:'
+dockers:
+  - image_templates:
+      - "ghcr.io/andriykalashnykov/gotest:latest"
+      - "ghcr.io/andriykalashnykov/gotest:{{ .Tag }}"
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.name={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.source={{.GitURL}}"
+      - "--label=org.opencontainers.image.licenses=MIT"
+      - "--label=VERSION={{.Version}}"
+      - "--platform=linux/amd64"
+    skip_push: false
