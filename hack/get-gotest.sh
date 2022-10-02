@@ -24,27 +24,23 @@ sudo -v
 
 cd $TMP_DIR
 
-getHost(){
-    OS=$(echo $(uname))
-    OS_LC=$(echo $(uname) | awk '{print tolower($0)}')
-	  ARCH_ORIG=$(uname -m) ;
+OS=$(echo $(uname))
+OS_LC=$(echo $(uname) | awk '{print tolower($0)}')
+ARCH_ORIG=$(uname -m) ;
 
-	case "$ARCH_ORIG" in
+case "$ARCH_ORIG" in
+"amd64")  ARCH="amd64"
+	  ;;
+"x86_64") ARCH="amd64"
+	  ;;
+"i386")   ARCH="386"
+	  ;;
+"386")    ARCH="386"
+	  ;;
+*)        ARCH="NONE"
+	  ;;
+esac
 
-	"amd64")  ARCH="amd64"
-	    ;;
-	"x86_64") ARCH="amd64"
-	    ;;
-	"i386")   ARCH="386"
-	    ;;
-	"386")    ARCH="386"
-	   ;;
-	*)        ARCH="NONE"
-	   ;;
-	esac
-}
-
-getHost
 
 if [ -z "${VERSION_TO_INSTALL}" ]; then
     VERSION_TO_INSTALL=$(curl -sL https://api.github.com/repos/$USER/$PROJECT/releases/latest  | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's/^.//')
