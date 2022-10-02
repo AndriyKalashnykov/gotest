@@ -112,9 +112,9 @@ delete-current-tag:
 	git tag -d ${VERSION}
 	git push --delete origin ${VERSION}
 
-# get tag v0.0.8
-# git tag -d v0.0.8
-# git push --delete origin v0.0.8
+# get tag v0.0.9
+# git tag -d v0.0.9
+# git push --delete origin v0.0.9
 # git tag -l
 # git ls-remote --tags -q
 # git ls-remote origin | cut -f 2 | grep -iv head | xargs git push --delete origin

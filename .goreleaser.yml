@@ -34,8 +34,8 @@ dockers:
       - tomljson
       - tomll
     image_templates:
-      - "ghcr.io/AndriyKalashnykov/gotest:latest"
-      - "ghcr.io/AndriyKalashnykov/gotest:{{ .Tag }}"
+      - "ghcr.io/andriykalashnykov/gotest:latest"
+      - "ghcr.io/andriykalashnykov/gotest:{{ .Tag }}"
     dockerfile: Dockerfile
     build_flag_templates:
       - "--label=org.opencontainers.image.created={{.Date}}"
