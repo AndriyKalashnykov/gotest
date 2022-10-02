@@ -31,7 +31,7 @@ test: deps
 test-coverage-view: test
 	go tool cover -html=./.bin/coverage.out
 
-build: test
+build:
 	go build -ldflags "-X main.commit=${commitSHA} -X main.date=${DATE}" -o ./.bin/gotest
 
 install: build
@@ -70,7 +70,10 @@ ifeq ($(RES), 0)
 endif
 
 run: build
-	./.bin/gotest version -s
+	@./.bin/gotest version
+
+image:
+	docker build -t gotest  .
 
 generate-changelog:
 	./hack/generate-changelog.sh

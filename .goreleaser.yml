@@ -9,10 +9,9 @@ builds:
       - linux
     goarch:
       - amd64
-      - arm
       - arm64
     ldflags:
-      - -s -w -X main.Version={{.Version}}
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
 archives:
   - replacements:
       darwin: macOS
@@ -24,6 +23,30 @@ archives:
     format_overrides:
       - goos: windows
         format: zip
+    files:
+      - README.md
+dockers:
+  - id: tools
+    goos: linux
+    goarch: amd64
+    ids:
+      - jsontoml
+      - tomljson
+      - tomll
+    image_templates:
+      - "ghcr.io/AndriyKalashnykov/gotest:latest"
+      - "ghcr.io/AndriyKalashnykov/gotest:{{ .Tag }}"
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.name={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.source={{.GitURL}}"
+      - "--label=org.opencontainers.image.licenses=MIT"
+      - "--label=VERSION={{.Version}}"
+      - "--platform=linux/amd64"
+    skip_push: false
 checksum:
   name_template: 'checksums.txt'
 snapshot:
