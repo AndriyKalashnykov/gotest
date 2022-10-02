@@ -5,7 +5,7 @@
 # CI tools expect an interactive shell inside the container
 FROM alpine:latest as production
 
-COPY ./.bin/gotest /usr/bin/gotest
+COPY dist/gotest_linux_amd64_v1/gotest /usr/bin/gotest
 RUN chmod +x /usr/bin/gotest
 
 WORKDIR /workdir
