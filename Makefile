@@ -32,13 +32,7 @@ test-coverage-view: test
 	go tool cover -html=./.bin/coverage.out
 
 build:
-	go build -ldflags "-X main.commit=${commitSHA} -X main.date=${DATE}" -o ./.bin/gotest
-
-install: build
-	cp ./.bin/gotest $(GOPATH)/bin/
-
-install-all: install
-	sudo cp ./.bin/gotest /usr/local/bin/
+	go build -ldflags "-X main.commit=${commitSHA} -X main.date=${DATE}"
 
 clean:
 ifneq (,$(wildcard ./.bin/gotest))
@@ -70,7 +64,7 @@ ifeq ($(RES), 0)
 endif
 
 run: build
-	@./.bin/gotest version
+	@gotest version
 
 image: build
 	docker build -t gotest  .
