@@ -28,6 +28,8 @@ OS=$(echo $(uname))
 OS_LC=$(echo $(uname) | awk '{print tolower($0)}')
 ARCH_ORIG=$(uname -m) ;
 
+echo $OS_LC
+
 case "$ARCH_ORIG" in
 "amd64")  ARCH="amd64"
 	  ;;
