@@ -17,8 +17,8 @@ USER=AndriyKalashnykov
 PROJECT=gotest
 
 # ./get-gotest.sh 0.0.1
-# wget https://github.com/AndriyKalashnykov/gotest/releases/download/v0.0.9/gotest_v0.0.9_Linux_x86_64.tar.gz
-#      https://github.com/AndriyKalashnykov/gotest/releases/download/v0.0.9/gotest-v0.0.9-Linux-x86_64.tar.gz
+# curl -sfL  https://raw.githubusercontent.com/AndriyKalashnykov/gotest/master/hack/get-gotest.sh | bash
+# or
 # curl -sfL  https://raw.githubusercontent.com/AndriyKalashnykov/gotest/master/hack/get-gotest.sh | bash -s 0.0.9
 
 sudo -v
