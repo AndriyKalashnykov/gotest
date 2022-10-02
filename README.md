@@ -38,7 +38,7 @@ docker run --rm -v `pwd`:/host golang:1.17 bash -c "cd /host && go build ."
 
 ### Create release
 
-Create incremental release
+Create release
 
 ```bash
 make release
