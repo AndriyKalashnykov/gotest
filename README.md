@@ -9,14 +9,13 @@
 
 ### Binaries
 
-You can find prebuilt `gotest` binaries on the [releases page](https://github.com/AndriyKalashnykov/gotest/releases).
-
-You can download and install a binary locally like this:
+Use wget to download the pre-compiled binaries:
 
 ```bash
-./hack/get-gotest.sh
+VERSION=v0.0.9
+wget  https://github.com/AndriyKalashnykov/gotest/releases/download/${VERSION}/gotest_${VERSION}_$(echo $(uname))_$(uname -m).tar.gz -O - |\
+    tar -xz && sudo mv gotest /usr/local/bin/gotest
 ```
-
 ### Source
 
 #### Native Go installation:
