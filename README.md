@@ -13,7 +13,7 @@ Use wget to download the pre-compiled binaries:
 
 ```bash
 VERSION=v0.0.9
-wget  https://github.com/AndriyKalashnykov/gotest/releases/download/${VERSION}/gotest_${VERSION}_$(echo $(uname))_$(uname -m).tar.gz -O - |\
+wget -q https://github.com/AndriyKalashnykov/gotest/releases/download/${VERSION}/gotest_${VERSION}_$(echo $(uname))_$(uname -m).tar.gz -O - |\
     tar -xz && sudo mv gotest /usr/local/bin/gotest
 ```
 ### Source
