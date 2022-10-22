@@ -9,13 +9,14 @@
 
 ### Binaries
 
-Use wget to download the pre-compiled binaries:
+You can find prebuilt `gotest` binaries on the [releases page](https://github.com/AndriyKalashnykov/gotest/releases).
+
+You can download and install a binary locally like this:
 
 ```bash
-VERSION=v0.0.9
-wget -q https://github.com/AndriyKalashnykov/gotest/releases/download/${VERSION}/gotest_${VERSION}_$(echo $(uname))_$(uname -m).tar.gz -O - |\
-    tar -xz && sudo mv gotest /usr/local/bin/gotest
+./hack/get-gotest.sh
 ```
+
 ### Source
 
 #### Native Go installation:
@@ -25,7 +26,7 @@ toolchain](https://golang.org/dl/). You can then install the latest `gotest` fro
 Github using:
 
 ```bash
-go install github.com/AndriyKalashnykov/gotest@latest
+$ go install github.com/AndriyKalashnykov/gotest@latest
 ```
 
 ### Build from sources
@@ -33,27 +34,8 @@ go install github.com/AndriyKalashnykov/gotest@latest
 ```bash
 git clone git@github.com:AndriyKalashnykov/gotest.git
 cd gotest
-docker run --rm -v `pwd`:/host golang:1.18 bash -c "cd /host && go build ."
+docker run --rm -v `pwd`:/host golang:1.17 bash -c "cd /host && go build ."
 ```
-
-### Docker Image
-
-```bash
-docker pull ghcr.io/nukleros/operator-builder
-```
-
-#### One-shot container use
-
-```bash
-docker run --rm -v "${PWD}":/workdir ghcr.io/andriykalashnykov/gotest [flags]
-```
-
-#### Run container commands interactively
-
-```bash
-docker run --rm -it -v "${PWD}":/workdir --entrypoint sh ghcr.io/andriykalashnykov/gotest
-```
-
 
 ### Create release
 

@@ -3,7 +3,7 @@ name: gotest Release
 on:
   push:
     tags:
-      - '*'
+      - 'v*'
 # https://github.com/jidicula/random-standup
 # https://github.com/jidicula/random-standup/blob/main/.github/workflows/release-draft.yml
 jobs:
