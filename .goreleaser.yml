@@ -54,3 +54,20 @@ dockers:
       - "--label=VERSION={{.Version}}"
       - "--platform=linux/amd64"
     skip_push: false
+
+nfpms:
+  - file_name_template: '{{ .ProjectName }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+    homepage:  https://github.com/AndriyKalashnykov/gotest
+    description: "GoTest app"
+    maintainer: Andriy Kalashnykov <AndriyKalashnykov@gmail.com>
+    license: MIT
+    vendor: AndriyKalashnykov
+    formats:
+      - apk
+      - deb
+      - rpm
+    recommends:
+      - kubectl
+      - golang
+      - make
+      - kind
