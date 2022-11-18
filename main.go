@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/AndriyKalashnykov/gotest/internal/calc"
-	"github.com/AndriyKalashnykov/gotest/internal/cmd"
-	"github.com/worldline-go/struct2"
-	"github.com/worldline-go/struct2/types"
 	"log"
 	"os"
 	"reflect"
 	"sort"
 	"time"
+
+	"github.com/AndriyKalashnykov/gotest/internal/calc"
+	"github.com/AndriyKalashnykov/gotest/internal/cmd"
+	"github.com/worldline-go/struct2"
+	"github.com/worldline-go/struct2/types"
 )
 
 const Version = "v0.0.9"

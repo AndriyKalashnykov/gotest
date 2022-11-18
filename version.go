@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/AndriyKalashnykov/gotest/internal/cmd"
 	"github.com/spf13/cobra"
 	goVersion "go.hein.dev/go-version"

@@ -1,5 +1,7 @@
-# This is an example goreleaser.yaml file with some sane defaults.
-# Make sure to check the documentation at http://goreleaser.com
+---
+before:
+  hooks:
+    - ./build/completions.sh
 builds:
   - id: gotest
     env:
@@ -25,6 +27,7 @@ archives:
         format: zip
     files:
       - README.md
+      - completions/*
 checksum:
   name_template: 'checksums.txt'
 snapshot:
@@ -57,11 +60,18 @@ dockers:
 
 nfpms:
   - file_name_template: '{{ .ProjectName }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
-    homepage:  https://github.com/AndriyKalashnykov/gotest
+    homepage: https://github.com/AndriyKalashnykov/gotest
     description: "GoTest app"
     maintainer: Andriy Kalashnykov <AndriyKalashnykov@gmail.com>
     license: MIT
     vendor: AndriyKalashnykov
+    contents:
+      - src: ./completions/gotest.bash
+        dst: /etc/bash_completion.d/gotest
+      - src: ./completions/gotest.fish
+        dst: /usr/share/fish/completions/gotest.fish
+      - src: ./completions/gotest.zsh
+        dst: /usr/local/share/zsh/site-functions/_gotest
     formats:
       - apk
       - deb

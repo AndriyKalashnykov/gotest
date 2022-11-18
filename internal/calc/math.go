@@ -12,6 +12,6 @@ func Subtract(x, y int) (res int) {
 	return x - y
 }
 
-func test()  {
+func test() {
 	fmt.Println("test")
 }

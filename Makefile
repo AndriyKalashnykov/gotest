@@ -36,11 +36,12 @@ build:
 
 clean:
 ifneq (,$(wildcard ./.bin/gotest))
-	rm ./.bin/gotest
+	@rm ./.bin/gotest
 endif
+	@rm -rf .bin/ .dist/
 
-ifneq (,$(wildcard ./.bin/coverage.out))
-	rm ./.bin/coverage.out
+ifneq (,$(wildcard .bin/coverage.out))
+	@rm -rf .bin/coverage.out
 endif
 
 ifneq (,$(wildcard $(GOPATH)/bin/gotest))
