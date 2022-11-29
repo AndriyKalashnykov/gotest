@@ -46,7 +46,10 @@ endif
 
 ifneq (,$(wildcard $(GOPATH)/bin/gotest))
 	rm $(GOPATH)/bin/gotest
-endif	
+endif
+	@rm -rf ./dist
+	@rm -rf ./completions
+	@rm -f gotest
 
 clean-all: clean
 ifneq (,$(wildcard /usr/local/bin/gotest))
