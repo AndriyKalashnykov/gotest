@@ -1,3 +1,4 @@
+# https://carlosbecker.com/posts/golang-completions-cobra/
 ---
 before:
   hooks:
