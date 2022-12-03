@@ -14,7 +14,7 @@ import (
 	"github.com/worldline-go/struct2/types"
 )
 
-const Version = "v0.0.12"
+const Version = "v0.0.13"
 
 func SortPrint(m map[string]interface{}) {
 	keys := make([]string, 0, len(m))
