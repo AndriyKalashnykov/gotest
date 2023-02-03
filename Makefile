@@ -112,7 +112,8 @@ delete-current-tag:
 
 #test-release-local: @ Build binaries locally without publishing
 test-release-local: build
-	goreleaser release --rm-dist --snapshot
+	@goreleaser check
+	@goreleaser release --rm-dist --snapshot
 
 # get tag v0.0.9
 # git tag -d v0.0.9
