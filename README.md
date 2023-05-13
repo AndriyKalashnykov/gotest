@@ -6,6 +6,13 @@
 
 # Test project in Go
 
+## Requirements
+
+- [gvm](https://github.com/moovweb/gvm) Go 1.20.3
+    ```bash
+    gvm install go1.20.3 --prefer-binary --with-build-tools --with-protobuf
+    gvm use go1.20.3 --default
+
 ## Installation
 
 ### Binaries
