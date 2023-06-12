@@ -6,7 +6,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.16.0
-	github.com/worldline-go/struct2 v1.2.3
+	github.com/worldline-go/struct2 v1.2.4
 	go.hein.dev/go-version v0.1.0
 )
 
