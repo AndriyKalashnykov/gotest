@@ -1,10 +1,3 @@
-# Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
-ifeq (,$(shell go env GOBIN))
-GOBIN=$(shell go env GOPATH)/bin
-else
-GOBIN=$(shell go env GOBIN)
-endif
-
 commitSHA=$(shell git describe --dirty --always)
 dateStr=$(shell date +%s)
 DATE := $(shell /bin/date +%m-%d-%Y)
@@ -13,11 +6,6 @@ VERSION := $(shell cat ./main.go | grep "const Version ="| cut -d"\"" -f2)
 
 deps:
 	@go install golang.org/x/lint/golint@latest
-	@go get -d github.com/mitchellh/go-homedir@latest
-	@go get -d github.com/spf13/viper@latest
-	@go get -d github.com/spf13/cobra@latest
-	@go get -d go.hein.dev/go-version@latest
-	@go get -d github.com/hashicorp/hcl@latest
 
 all: build
 
