@@ -8,10 +8,10 @@
 
 ## Requirements
 
-- [gvm](https://github.com/moovweb/gvm) Go 1.20.3
+- [gvm](https://github.com/moovweb/gvm) Go 1.23
     ```bash
-    gvm install go1.20.3 --prefer-binary --with-build-tools --with-protobuf
-    gvm use go1.20.3 --default
+    gvm install go1.23--prefer-binary --with-build-tools --with-protobuf
+    gvm use go1.23--default
 
 ## Installation
 
@@ -42,7 +42,7 @@ $ go install github.com/AndriyKalashnykov/gotest@latest
 ```bash
 git clone git@github.com:AndriyKalashnykov/gotest.git
 cd gotest
-docker run --rm -v `pwd`:/host golang:1.17 bash -c "cd /host && go build ."
+docker run --rm -v `pwd`:/host golang:1.23bash -c "cd /host && go build ."
 ```
 
 ### Create release
