@@ -5,7 +5,7 @@ go 1.23
 require (
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/spf13/cobra v1.9.1
-	github.com/spf13/viper v1.20.0
+	github.com/spf13/viper v1.20.1
 	github.com/worldline-go/struct2 v1.3.1
 	go.hein.dev/go-version v0.1.0
 )
