@@ -11,7 +11,6 @@ import (
 	"github.com/AndriyKalashnykov/gotest/internal/calc"
 	"github.com/AndriyKalashnykov/gotest/internal/cmd"
 	"github.com/worldline-go/struct2"
-	"github.com/worldline-go/struct2/types"
 )
 
 const Version = "v0.0.14"
@@ -106,10 +105,10 @@ func main() {
 		log.Println("add: ", calcRest)
 
 		type ColorGroup struct {
-			ID     int        `json:"id"`
-			Name   string     `json:"name"`
-			Colors []string   `json:"colors"`
-			Date   types.Time `json:"time"`
+			ID     int       `json:"id"`
+			Name   string    `json:"name"`
+			Colors []string  `json:"colors"`
+			Date   time.Time `json:"time"`
 		}
 
 		d, _ := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
@@ -118,7 +117,7 @@ func main() {
 			ID:     1,
 			Name:   "Reds",
 			Colors: []string{"Crimson", "Red", "Ruby", "Maroon"},
-			Date:   types.Time{Time: d},
+			Date:   d,
 		}
 
 		result := (&struct2.Decoder{}).SetTagName("json").Map(group) // default tag name is "struct"

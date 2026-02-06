@@ -19,7 +19,7 @@ test: deps
 test-coverage-view: test
 	go tool cover -html=./.bin/coverage.out
 
-build:
+build: clean
 	go build -ldflags "-X main.commit=${commitSHA} -X main.date=${DATE}"
 
 clean:
@@ -79,7 +79,7 @@ release: clean
 
 #update: @ Update dependency packages to latest versions
 update:
-	@export GOPRIVATE=$(GOPRIVATE); export GOFLAGS=$(GOFLAGS); go get -u; go mod tidy
+	@export GOPRIVATE=$(GOPRIVATE); go get -u; go mod tidy
 
 #version: @ Print current version(tag)
 version:
