@@ -1,27 +1,44 @@
+.DEFAULT_GOAL := help
+
 commitSHA=$(shell git describe --dirty --always)
 dateStr=$(shell date +%s)
 DATE := $(shell /bin/date +%m-%d-%Y)
 
 VERSION := $(shell cat ./main.go | grep "const Version ="| cut -d"\"" -f2)
 
-deps:
-	@go install golang.org/x/lint/golint@latest
+SEMVER_RE := ^v[0-9]+\.[0-9]+\.[0-9]+$$
 
+.PHONY: help deps all lint test test-coverage-view build clean clean-all show run image changelog-generate tag tags-push release update version tags-delete-local tags-delete-remote tags-delete-all tags-delete-current release-test-local ci
+
+#help: @ Show available make targets with descriptions
+help:
+	@grep -E '^#[a-zA-Z_-]+:.* @' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = "#|: @"}; {printf "\033[36m%-30s\033[0m %s\n", $$2, $$3}'
+
+#deps: @ Install dependency tools (idempotent)
+deps:
+	@command -v staticcheck >/dev/null 2>&1 || go install honnef.co/go/tools/cmd/staticcheck@v0.6.0
+
+#all: @ Build all
 all: build
 
+#lint: @ Run linter
 lint:
-	@golint -set_exit_status ./...
+	@staticcheck ./...
 
+#test: @ Run tests with coverage
 test: deps
 	@mkdir -p ./.bin/
-	go test -v ./... -cover  -coverprofile=./.bin/coverage.out 
+	@go test -v ./... -cover -coverprofile=./.bin/coverage.out
 
+#test-coverage-view: @ Run tests and open coverage report in browser
 test-coverage-view: test
-	go tool cover -html=./.bin/coverage.out
+	@go tool cover -html=./.bin/coverage.out
 
+#build: @ Build binary
 build: clean
-	go build -ldflags "-X main.commit=${commitSHA} -X main.date=${DATE}"
+	@go build -ldflags "-X main.commit=${commitSHA} -X main.date=${DATE}"
 
+#clean: @ Clean build artifacts
 clean:
 ifneq (,$(wildcard ./.bin/gotest))
 	@rm ./.bin/gotest
@@ -33,21 +50,23 @@ ifneq (,$(wildcard .bin/coverage.out))
 endif
 
 ifneq (,$(wildcard $(GOPATH)/bin/gotest))
-	rm $(GOPATH)/bin/gotest
+	@rm $(GOPATH)/bin/gotest
 endif
 	@rm -rf ./dist
 	@rm -rf ./completions
 	@rm -f gotest
 
+#clean-all: @ Clean all build artifacts including system-wide installs
 clean-all: clean
 ifneq (,$(wildcard /usr/local/bin/gotest))
-	sudo rm /usr/local/bin/gotest
+	@sudo rm /usr/local/bin/gotest
 endif
 
 CNT := $(shell which -a gotest | wc -l)
 EXCODE := $(shell which -a gotest | wc -l >/dev/null; echo $$?)
 RES := $(shell test $(CNT) -gt 0 && echo $$?)
 
+#show: @ Show gotest binary locations
 show:
 #	@echo CNT: $(CNT)
 #	@echo EXCODE: IS $(EXCODE)
@@ -55,22 +74,32 @@ ifeq ($(RES), 0)
 	@which -a gotest
 endif
 
+#run: @ Build and run gotest
 run: build
 	@gotest version
 
+#image: @ Build Docker image
 image: build
-	docker build -t gotest  .
+	@docker build -t gotest .
 
-generate-changelog:
-	./hack/generate-changelog.sh
+#changelog-generate: @ Generate changelog
+changelog-generate:
+	@./hack/generate-changelog.sh
 
+#tag: @ Create a release tag
 tag:
-	./hack/tag-release.sh
+	@./hack/tag-release.sh
 
-push-tags:
+#tags-push: @ Push all tags to remote
+tags-push:
 	@git push --tags
 
+#release: @ Create and push a release (validates semver)
 release: clean
+	@if ! echo "$(VERSION)" | grep -qE '$(SEMVER_RE)'; then \
+		echo "ERROR: VERSION '$(VERSION)' is not valid semver (expected vMAJOR.MINOR.PATCH)"; \
+		exit 1; \
+	fi
 	@echo -n "Are you sure to create and push ${VERSION} tag? [y/N] " && read ans && [ $${ans:-N} = y ]
 	@git commit -a -s -m "Cut ${VERSION} release"
 	@git tag ${VERSION}
@@ -85,23 +114,30 @@ update:
 version:
 	@echo ${VERSION}
 
-delete-local-tags:
-	./hack/delete-local-tags.sh
+#tags-delete-local: @ Delete all local tags
+tags-delete-local:
+	@./hack/delete-local-tags.sh
 
-delete-remote-tags:
-	./hack/delete-remote-tags.sh
+#tags-delete-remote: @ Delete all remote tags
+tags-delete-remote:
+	@./hack/delete-remote-tags.sh
 
-delete-all-tags: delete-local-tags delete-remote-tags delete-local-tags
-	echo "v0.0.0" > VERSION
+#tags-delete-all: @ Delete all local and remote tags
+tags-delete-all: tags-delete-local tags-delete-remote tags-delete-local
+	@echo "v0.0.0" > VERSION
 
-delete-current-tag:
-	git tag -d ${VERSION}
-	git push --delete origin ${VERSION}
+#tags-delete-current: @ Delete current version tag locally and remotely
+tags-delete-current:
+	@git tag -d ${VERSION}
+	@git push --delete origin ${VERSION}
 
-#test-release-local: @ Build binaries locally without publishing
-test-release-local: build
+#release-test-local: @ Build binaries locally without publishing
+release-test-local: build
 	@goreleaser check
 	@goreleaser release --rm-dist --snapshot
+
+#ci: @ Run lint and tests (CI pipeline)
+ci: lint test build
 
 # get tag v0.0.9
 # git tag -d v0.0.9
