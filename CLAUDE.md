@@ -28,7 +28,7 @@ make clean       # Clean build artifacts
 - **Module**: `github.com/AndriyKalashnykov/gotest`
 - **Go version**: Defined in `go.mod`
 - **Default branch**: `master`
-- **CI triggers on**: `main` branch (push/PR) and `v*` tags
+- **CI triggers on**: `master` branch (push/PR) and `v*` tags
 - **Release**: Tag-triggered via GoReleaser (`v*` tags)
 - **Linter**: `staticcheck` (installed via `make deps`, version pinned in Makefile)
 - **Test coverage**: `go test ./... -cover`
@@ -39,7 +39,7 @@ GitHub Actions workflows in `.github/workflows/`:
 
 | Workflow | File | Triggers | Steps |
 |----------|------|----------|-------|
-| CI | `ci.yml` | push to main, PRs, `v*` tags | Lint, Test, Build (via `make` targets) |
+| CI | `ci.yml` | push to master, PRs, `v*` tags | Lint, Test, Build (via `make` targets) |
 | Release | `release.yml` | `v*` tags | GoReleaser build + GitHub release + GHCR push |
 | Cleanup | `cleanup-runs.yml` | weekly (Sunday) + manual | Delete old workflow runs (retain 7 days, min 5) |
 

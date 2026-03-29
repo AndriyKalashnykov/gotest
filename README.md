@@ -1,4 +1,4 @@
-[![CI](https://github.com/AndriyKalashnykov/gotest/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/AndriyKalashnykov/gotest/actions/workflows/ci.yml)
+[![CI](https://github.com/AndriyKalashnykov/gotest/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/AndriyKalashnykov/gotest/actions/workflows/ci.yml)
 [![Hits](https://hits.sh/github.com/AndriyKalashnykov/gotest.svg?view=today-total&style=plastic)](https://hits.sh/github.com/AndriyKalashnykov/gotest/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://app.renovatebot.com/dashboard#github/AndriyKalashnykov/gotest)
@@ -99,11 +99,11 @@ go install github.com/AndriyKalashnykov/gotest@latest
 
 ## CI/CD
 
-GitHub Actions runs on every push to `main`, tags `v*`, and pull requests.
+GitHub Actions runs on every push to `master`, tags `v*`, and pull requests.
 
 | Job | Triggers | Steps |
 |-----|----------|-------|
-| **ci** | push to main, PRs, tags | Lint, Test, Build |
+| **ci** | push to master, PRs, tags | Lint, Test, Build |
 | **goreleaser** | tag `v*` | Build binaries, Docker image, GitHub release |
 
 [Renovate](https://docs.renovatebot.com/) keeps dependencies up to date with platform automerge enabled.
