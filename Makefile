@@ -8,7 +8,9 @@ VERSION := $(shell cat ./main.go | grep "const Version ="| cut -d"\"" -f2)
 
 SEMVER_RE := ^v[0-9]+\.[0-9]+\.[0-9]+$$
 
-.PHONY: help deps all lint test test-coverage-view build clean clean-all show run image changelog-generate tag tags-push release update version tags-delete-local tags-delete-remote tags-delete-all tags-delete-current release-test-local ci
+NVM_VERSION := 0.40.4
+
+.PHONY: help deps all lint test test-coverage-view build clean clean-all show run image changelog-generate tag tags-push release update version tags-delete-local tags-delete-remote tags-delete-all tags-delete-current release-test-local ci renovate-bootstrap renovate-validate
 
 #help: @ Show available make targets with descriptions
 help:
@@ -145,3 +147,17 @@ ci: lint test build
 # git tag -l
 # git ls-remote --tags -q
 # git ls-remote origin | cut -f 2 | grep -iv head | xargs git push --delete origin
+
+#renovate-bootstrap: @ Install nvm and npm for Renovate
+renovate-bootstrap:
+	@command -v node >/dev/null 2>&1 || { \
+		echo "Installing nvm $(NVM_VERSION)..."; \
+		curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v$(NVM_VERSION)/install.sh | bash; \
+		export NVM_DIR="$$HOME/.nvm"; \
+		[ -s "$$NVM_DIR/nvm.sh" ] && . "$$NVM_DIR/nvm.sh"; \
+		nvm install --lts; \
+	}
+
+#renovate-validate: @ Validate Renovate configuration
+renovate-validate: renovate-bootstrap
+	@npx --yes renovate --platform=local

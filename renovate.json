@@ -2,71 +2,55 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:best-practices",
-    ":label(dependencies)",
     ":semanticCommitType(chore)",
-    "docker:pinDigests",
-    "helpers:pinGitHubActionDigests",
-    ":dependencyDashboard",
-    ":automergeRequireAllStatusChecks",
-    ":prConcurrentLimitNone",
-    ":separatePatchReleases",
-    "replacements:all",
-    "workarounds:all"
+    ":separatePatchReleases"
   ],
-  "postUpdateOptions": [
-    "gomodTidy"
-  ],
+  "commitMessagePrefix": "chore(all): ",
   "commitMessageAction": "update",
   "commitBody": "Signed-off-by: Renovate Bot <bot@renovateapp.com>",
-  "platformAutomerge": true,
-  "prConcurrentLimit": 0,
+  "labels": ["dependencies"],
+  "prConcurrentLimit": 50,
   "prHourlyLimit": 0,
-  "labels": [
-    "dependencies"
-  ],
+  "platformAutomerge": true,
+  "automerge": true,
+  "automergeType": "pr",
+  "automergeStrategy": "squash",
+  "ignoreTests": false,
+  "postUpdateOptions": ["gomodTidy"],
   "vulnerabilityAlerts": {
-    "enabled": true,
     "labels": ["security"],
     "automerge": true,
-    "schedule": ["at any time"]
+    "minimumReleaseAge": "0 days"
   },
   "packageRules": [
     {
-      "description": "Security updates - highest priority, immediate merge",
-      "matchUpdateTypes": ["security"],
-      "labels": ["security", "dependencies"],
-      "automerge": true,
-      "automergeType": "pr",
-      "platformAutomerge": true,
-      "schedule": ["at any time"],
-      "prPriority": 10
+      "description": "Wait 3 days before automerging major updates",
+      "matchUpdateTypes": ["major"],
+      "minimumReleaseAge": "3 days"
     },
     {
-      "description": "Go modules group",
+      "description": "Bump Go version in go.mod to latest patch",
+      "matchManagers": ["gomod"],
+      "matchDepNames": ["go"],
+      "rangeStrategy": "bump"
+    },
+    {
+      "description": "Group GitHub Actions into one PR",
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions",
+      "commitMessagePrefix": "chore(actions): "
+    },
+    {
+      "description": "Group Go modules",
       "matchManagers": ["gomod"],
       "groupName": "go-modules",
-      "commitMessagePrefix": "chore(go): ",
-      "automerge": true,
-      "automergeType": "pr",
-      "platformAutomerge": true
+      "commitMessagePrefix": "chore(go): "
     },
     {
-      "description": "Docker images group",
+      "description": "Group Docker images",
       "matchManagers": ["dockerfile", "docker-compose"],
       "groupName": "docker",
-      "commitMessagePrefix": "chore(docker): ",
-      "automerge": true,
-      "automergeType": "pr",
-      "platformAutomerge": true
-    },
-    {
-      "description": "GitHub Actions group",
-      "matchManagers": ["github-actions"],
-      "groupName": "github-actions",
-      "commitMessagePrefix": "chore(actions): ",
-      "automerge": true,
-      "automergeType": "pr",
-      "platformAutomerge": true
+      "commitMessagePrefix": "chore(docker): "
     }
   ]
 }
