@@ -1,12 +1,10 @@
-name: ci
+name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+    tags: ['v*']
   pull_request:
-    branches:
-      - main
 
 permissions:
   contents: read
@@ -16,8 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-
-  build:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -31,11 +28,11 @@ jobs:
           go-version-file: 'go.mod'
           cache: true
 
-      - name: Run coverage
-        run: go test ./... -coverprofile=coverage.out -covermode=atomic
+      - name: Lint
+        run: make lint
 
-      - name: Upload coverage to Codecov
-        run: bash <(curl -s https://codecov.io/bash)
+      - name: Test
+        run: make test
 
       - name: Build
-        run: go build -v ./...
+        run: make build

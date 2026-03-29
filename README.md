@@ -1,59 +1,109 @@
-[![Go](https://github.com/AndriyKalashnykov/gotest/actions/workflows/ci.yml/badge.svg)](https://github.com/AndriyKalashnykov/gotest/actions/workflows/ci.yml)
-[![Release Go project](https://github.com/AndriyKalashnykov/gotest/actions/workflows/release.yml/badge.svg)](https://github.com/AndriyKalashnykov/gotest/actions/workflows/release.yml)
-[![codecov](https://codecov.io/gh/AndriyKalashnykov/gotest/branch/master/graph/badge.svg?token=Q12E11KJ74)](https://codecov.io/gh/AndriyKalashnykov/gotest)
-[![Open in Visual Studio Code](https://img.shields.io/static/v1?logo=visualstudiocode&label=&message=Open%20in%20Visual%20Studio%20Code&labelColor=2c2c32&color=007acc&logoColor=007acc)](https://open.vscode.dev/AndriyKalashnykov/gotest)
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FAndriyKalashnykov%2Fgotest&count_bg=%2333CD56&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+[![CI](https://github.com/AndriyKalashnykov/gotest/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/AndriyKalashnykov/gotest/actions/workflows/ci.yml)
+[![Hits](https://hits.sh/github.com/AndriyKalashnykov/gotest.svg?view=today-total&style=plastic)](https://hits.sh/github.com/AndriyKalashnykov/gotest/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
+[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://app.renovatebot.com/dashboard#github/AndriyKalashnykov/gotest)
 
-# Test project in Go
+# gotest
 
-## Requirements
+A Go CLI playground and proof-of-concept project built with Cobra, Viper, and GoReleaser. Demonstrates struct parsing, CLI commands, and release automation.
 
-- [gvm](https://github.com/moovweb/gvm) Go 1.23
-    ```bash
-    gvm install go1.23--prefer-binary --with-build-tools --with-protobuf
-    gvm use go1.23--default
+## Quick Start
+
+```bash
+make deps      # install tools (staticcheck)
+make build     # build the binary
+make test      # run tests with coverage
+make run       # build and run gotest
+```
+
+## Prerequisites
+
+| Tool | Version | Purpose |
+|------|---------|---------|
+| [GNU Make](https://www.gnu.org/software/make/) | 3.81+ | Build orchestration |
+| [Go](https://go.dev/dl/) | 1.25+ | Go toolchain (see `go.mod`) |
+| [Docker](https://www.docker.com/) | latest | Container image builds (optional) |
+
+Install all required dependencies:
+
+```bash
+make deps
+```
+
+## Available Make Targets
+
+Run `make help` to see all available targets.
+
+### Build & Run
+
+| Target | Description |
+|--------|-------------|
+| `make build` | Build binary |
+| `make clean` | Clean build artifacts |
+| `make clean-all` | Clean all build artifacts including system-wide installs |
+| `make run` | Build and run gotest |
+| `make image-build` | Build Docker image |
+
+### Code Quality
+
+| Target | Description |
+|--------|-------------|
+| `make lint` | Run linter |
+| `make test` | Run tests with coverage |
+| `make test-coverage-view` | Run tests and open coverage report in browser |
+
+### CI
+
+| Target | Description |
+|--------|-------------|
+| `make ci` | Run lint, tests, and build (CI pipeline) |
+| `make ci-run` | Run GitHub Actions workflow locally using [act](https://github.com/nektos/act) |
+
+### Release
+
+| Target | Description |
+|--------|-------------|
+| `make version` | Print current version(tag) |
+| `make release` | Create and push a release (validates semver) |
+| `make release-test-local` | Build binaries locally without publishing |
+| `make tag` | Create a release tag |
+| `make tags-push` | Push all tags to remote |
+| `make changelog-generate` | Generate changelog |
+
+### Utilities
+
+| Target | Description |
+|--------|-------------|
+| `make deps` | Install dependency tools (idempotent) |
+| `make update` | Update dependency packages to latest versions |
+| `make show` | Show gotest binary locations |
+| `make renovate-validate` | Validate Renovate configuration |
 
 ## Installation
 
 ### Binaries
 
-You can find prebuilt `gotest` binaries on the [releases page](https://github.com/AndriyKalashnykov/gotest/releases).
+Prebuilt binaries are available on the [releases page](https://github.com/AndriyKalashnykov/gotest/releases).
 
-You can download and install a binary locally like this:
+Download and install a binary locally:
 
 ```bash
 ./hack/get-gotest.sh
 ```
 
-### Source
-
-#### Native Go installation:
-
-To build `gotest` from source, first install the [Go
-toolchain](https://golang.org/dl/). You can then install the latest `gotest` from
-Github using:
+### From source
 
 ```bash
-$ go install github.com/AndriyKalashnykov/gotest@latest
+go install github.com/AndriyKalashnykov/gotest@latest
 ```
 
-### Build from sources
+## CI/CD
 
-```bash
-git clone git@github.com:AndriyKalashnykov/gotest.git
-cd gotest
-docker run --rm -v `pwd`:/host golang:1.23bash -c "cd /host && go build ."
-```
+GitHub Actions runs on every push to `main`, tags `v*`, and pull requests.
 
-### Create release
+| Job | Triggers | Steps |
+|-----|----------|-------|
+| **ci** | push to main, PRs, tags | Lint, Test, Build |
+| **goreleaser** | tag `v*` | Build binaries, Docker image, GitHub release |
 
-Create release
-
-```bash
-make release
-```
-
-### TODO:
-
-* [random-standup](https://github.com/jidicula/random-standup/tree/main/.github/workflows)
-* [create-go-app/cli](https://github.com/create-go-app/cli)
+[Renovate](https://docs.renovatebot.com/) keeps dependencies up to date with platform automerge enabled.

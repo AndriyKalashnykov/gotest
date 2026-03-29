@@ -1,5 +1,8 @@
 .DEFAULT_GOAL := help
 
+APP_NAME       := gotest
+CURRENTTAG     := $(shell git describe --tags --abbrev=0 2>/dev/null || echo "dev")
+
 commitSHA=$(shell git describe --dirty --always)
 dateStr=$(shell date +%s)
 DATE := $(shell /bin/date +%m-%d-%Y)
@@ -8,23 +11,32 @@ VERSION := $(shell cat ./main.go | grep "const Version ="| cut -d"\"" -f2)
 
 SEMVER_RE := ^v[0-9]+\.[0-9]+\.[0-9]+$$
 
-NVM_VERSION := 0.40.4
+# === Tool Versions (pinned) ===
+STATICCHECK_VERSION := 0.6.0
+ACT_VERSION         := 0.2.86
+NVM_VERSION         := 0.40.4
 
-.PHONY: help deps all lint test test-coverage-view build clean clean-all show run image changelog-generate tag tags-push release update version tags-delete-local tags-delete-remote tags-delete-all tags-delete-current release-test-local ci renovate-bootstrap renovate-validate
-
-#help: @ Show available make targets with descriptions
+#help: @ List available tasks
 help:
-	@grep -E '^#[a-zA-Z_-]+:.* @' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = "#|: @"}; {printf "\033[36m%-30s\033[0m %s\n", $$2, $$3}'
+	@echo "Usage: make COMMAND"
+	@echo "Commands :"
+	@grep -E '[a-zA-Z\.\-]+:.*?@ .*$$' $(MAKEFILE_LIST)| tr -d '#' | awk 'BEGIN {FS = ":.*?@ "}; {printf "\033[32m%-30s\033[0m - %s\n", $$1, $$2}'
 
 #deps: @ Install dependency tools (idempotent)
 deps:
-	@command -v staticcheck >/dev/null 2>&1 || go install honnef.co/go/tools/cmd/staticcheck@v0.6.0
+	@command -v staticcheck >/dev/null 2>&1 || go install honnef.co/go/tools/cmd/staticcheck@v$(STATICCHECK_VERSION)
+
+#deps-act: @ Install act for local CI (idempotent)
+deps-act: deps
+	@command -v act >/dev/null 2>&1 || { echo "Installing act $(ACT_VERSION)..."; \
+		curl -sSfL https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash -s -- -b /usr/local/bin v$(ACT_VERSION); \
+	}
 
 #all: @ Build all
 all: build
 
 #lint: @ Run linter
-lint:
+lint: deps
 	@staticcheck ./...
 
 #test: @ Run tests with coverage
@@ -70,8 +82,6 @@ RES := $(shell test $(CNT) -gt 0 && echo $$?)
 
 #show: @ Show gotest binary locations
 show:
-#	@echo CNT: $(CNT)
-#	@echo EXCODE: IS $(EXCODE)
 ifeq ($(RES), 0)
 	@which -a gotest
 endif
@@ -80,8 +90,8 @@ endif
 run: build
 	@gotest version
 
-#image: @ Build Docker image
-image: build
+#image-build: @ Build Docker image
+image-build: build
 	@docker build -t gotest .
 
 #changelog-generate: @ Generate changelog
@@ -138,15 +148,13 @@ release-test-local: build
 	@goreleaser check
 	@goreleaser release --rm-dist --snapshot
 
-#ci: @ Run lint and tests (CI pipeline)
+#ci: @ Run lint, tests, and build (CI pipeline)
 ci: lint test build
 
-# get tag v0.0.9
-# git tag -d v0.0.9
-# git push --delete origin v0.0.9
-# git tag -l
-# git ls-remote --tags -q
-# git ls-remote origin | cut -f 2 | grep -iv head | xargs git push --delete origin
+#ci-run: @ Run GitHub Actions workflow locally using act
+ci-run: deps-act
+	@act push --container-architecture linux/amd64 \
+		--artifact-server-path /tmp/act-artifacts
 
 #renovate-bootstrap: @ Install nvm and npm for Renovate
 renovate-bootstrap:
@@ -161,3 +169,8 @@ renovate-bootstrap:
 #renovate-validate: @ Validate Renovate configuration
 renovate-validate: renovate-bootstrap
 	@npx --yes renovate --platform=local
+
+.PHONY: help deps deps-act all lint test test-coverage-view build clean clean-all \
+	show run image-build changelog-generate tag tags-push release update version \
+	tags-delete-local tags-delete-remote tags-delete-all tags-delete-current \
+	release-test-local ci ci-run renovate-bootstrap renovate-validate

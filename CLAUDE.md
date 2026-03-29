@@ -10,6 +10,7 @@ make lint        # Run staticcheck linter
 make test        # Run tests with coverage
 make build       # Build binary
 make ci          # Run lint + test + build (CI pipeline)
+make ci-run      # Run GitHub Actions workflow locally via act
 make clean       # Clean build artifacts
 ```
 
@@ -25,12 +26,22 @@ make clean       # Clean build artifacts
 ## Key Details
 
 - **Module**: `github.com/AndriyKalashnykov/gotest`
-- **Go version**: Defined in `go.mod` (currently 1.25.7)
-- **Main branch**: `master`
-- **CI triggers on**: `main` branch (push/PR) -- note: this differs from the default branch name `master`
+- **Go version**: Defined in `go.mod`
+- **Default branch**: `master`
+- **CI triggers on**: `main` branch (push/PR) and `v*` tags
 - **Release**: Tag-triggered via GoReleaser (`v*` tags)
-- **Linter**: `staticcheck` (installed via `make deps`)
+- **Linter**: `staticcheck` (installed via `make deps`, version pinned in Makefile)
 - **Test coverage**: `go test ./... -cover`
+
+## CI/CD
+
+GitHub Actions workflows in `.github/workflows/`:
+
+| Workflow | File | Triggers | Steps |
+|----------|------|----------|-------|
+| CI | `ci.yml` | push to main, PRs, `v*` tags | Lint, Test, Build (via `make` targets) |
+| Release | `release.yml` | `v*` tags | GoReleaser build + GitHub release + GHCR push |
+| Cleanup | `cleanup-runs.yml` | weekly (Sunday) + manual | Delete old workflow runs (retain 7 days, min 5) |
 
 ## Skills
 
