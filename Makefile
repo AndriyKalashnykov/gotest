@@ -13,7 +13,7 @@ SEMVER_RE := ^v[0-9]+\.[0-9]+\.[0-9]+$$
 
 # === Tool Versions (pinned) ===
 STATICCHECK_VERSION := 0.6.0
-ACT_VERSION         := 0.2.86
+ACT_VERSION         := 0.2.87
 NVM_VERSION         := 0.40.4
 
 #help: @ List available tasks
