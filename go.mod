@@ -1,6 +1,6 @@
 module github.com/AndriyKalashnykov/gotest
 
-go 1.25.8
+go 1.26.1
 
 require (
 	github.com/mitchellh/go-homedir v1.1.0
