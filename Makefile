@@ -54,21 +54,11 @@ build: clean
 
 #clean: @ Clean build artifacts
 clean:
-ifneq (,$(wildcard ./.bin/gotest))
-	@rm ./.bin/gotest
-endif
-	@rm -rf .bin/ .dist/
-
-ifneq (,$(wildcard .bin/coverage.out))
-	@rm -rf .bin/coverage.out
-endif
-
+	@rm -rf .bin/ .dist/ ./dist ./completions
+	@rm -f gotest
 ifneq (,$(wildcard $(GOPATH)/bin/gotest))
 	@rm $(GOPATH)/bin/gotest
 endif
-	@rm -rf ./dist
-	@rm -rf ./completions
-	@rm -f gotest
 
 #clean-all: @ Clean all build artifacts including system-wide installs
 clean-all: clean
@@ -146,7 +136,7 @@ tags-delete-current:
 #release-test-local: @ Build binaries locally without publishing
 release-test-local: build
 	@goreleaser check
-	@goreleaser release --rm-dist --snapshot
+	@goreleaser release --clean --snapshot
 
 #ci: @ Run lint, tests, and build (CI pipeline)
 ci: lint test build

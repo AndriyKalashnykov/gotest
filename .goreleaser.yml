@@ -20,13 +20,8 @@ builds:
     ldflags:
       - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
 archives:
-  - replacements:
-      darwin: Darwin
-      linux: Linux
-      windows: Windows
-      386: i386
-      amd64: x86_64
-    name_template: "{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+  - name_template: >-
+      {{ .ProjectName }}_v{{ .Version }}_{{ with .Os }}{{ if eq . "darwin" }}Darwin{{ else if eq . "linux" }}Linux{{ else if eq . "windows" }}Windows{{ else }}{{ . }}{{ end }}{{ end }}_{{ with .Arch }}{{ if eq . "amd64" }}x86_64{{ else if eq . "386" }}i386{{ else }}{{ . }}{{ end }}{{ end }}
     format_overrides:
       - goos: windows
         format: zip
