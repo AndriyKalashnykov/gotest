@@ -9,8 +9,10 @@ import (
 )
 
 var (
-	shortened  = false
-	version    = "local-dev"
+	shortened = false
+	// version/commit/date are overridden at build time via -ldflags
+	// (-X main.version=... etc.). version defaults to the release constant.
+	version    = Version
 	commit     = "none"
 	date       = "unknown"
 	output     = "json"

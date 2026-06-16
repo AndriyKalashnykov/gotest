@@ -4,26 +4,23 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
-
 	homedir "github.com/mitchellh/go-homedir"
+	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
+const configName = ".gotest"
+
 var cfgFile string
 
-// RootCmd represents the base command when called without any subcommands
+// RootCmd is the base command, invoked when gotest is run without a subcommand.
 var RootCmd = &cobra.Command{
 	Use:   "gotest",
-	Short: "gotest - a Golang POC",
-	Long:  "gotest - a Golang POC playground",
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+	Short: "gotest - a Go CLI playground",
+	Long:  "gotest is a small Cobra-based CLI playground and proof-of-concept.",
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the RootCmd.
+// Execute runs the root command tree. It is called once by main.main().
 func Execute() {
 	if err := RootCmd.Execute(); err != nil {
 		fmt.Println(err)
@@ -33,39 +30,26 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
-
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.example.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	RootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "",
+		fmt.Sprintf("config file (default is $HOME/%s.yaml)", configName))
 }
 
-// initConfig reads in config file and ENV variables if set.
+// initConfig reads the config file (if any) and environment variables.
 func initConfig() {
 	if cfgFile != "" {
-		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
 	} else {
-		// Find home directory.
 		home, err := homedir.Dir()
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
 		}
-
-		// Search config in home directory with name ".example" (without extension).
 		viper.AddConfigPath(home)
-		viper.SetConfigName(".example")
+		viper.SetConfigName(configName)
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match
 
-	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
