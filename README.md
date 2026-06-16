@@ -137,7 +137,6 @@ Run `make help` to see all available targets.
 | `make version` | Print current version (tag) |
 | `make release` | Create and push a release (validates semver) |
 | `make release-test-local` | Build binaries locally without publishing |
-| `make tag` | Create a release tag |
 | `make tags-push` | Push all tags to remote |
 | `make changelog-generate` | Generate changelog |
 | `make tags-delete-local` | Delete all local tags |

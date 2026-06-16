@@ -101,10 +101,6 @@ image-build: build
 changelog-generate:
 	@./hack/generate-changelog.sh
 
-#tag: @ Create a release tag
-tag:
-	@./hack/tag-release.sh
-
 #tags-push: @ Push all tags to remote
 tags-push:
 	@git push --tags
@@ -138,8 +134,8 @@ tags-delete-remote:
 	@./hack/delete-remote-tags.sh
 
 #tags-delete-all: @ Delete all local and remote tags
-tags-delete-all: tags-delete-local tags-delete-remote tags-delete-local
-	@echo "v0.0.0" > VERSION
+tags-delete-all: tags-delete-local tags-delete-remote
+	@echo "All local and remote tags deleted"
 
 #tags-delete-current: @ Delete current version tag locally and remotely
 tags-delete-current:
@@ -165,6 +161,6 @@ renovate-validate: deps
 
 .PHONY: help deps all lint vulncheck trivy-fs secrets check-toolchain-alignment static-check test \
 	test-coverage-view build clean clean-all show run image-build \
-	changelog-generate tag tags-push release update version \
+	changelog-generate tags-push release update version \
 	tags-delete-local tags-delete-remote tags-delete-all tags-delete-current \
 	release-test-local ci ci-run renovate-validate
