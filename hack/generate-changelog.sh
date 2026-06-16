@@ -8,7 +8,7 @@ PREV_VERSION=$(git describe --tags "$(git rev-list --tags --max-count=1)")
 NEW_HASH=$(git rev-parse --verify HEAD)
 
 OUTPUT=$(git log "${PREV_VERSION}..${NEW_HASH}" --no-merges \
-  --pretty=format:'* [view commit](http://github.com/AndriyKalashnykov/gotest/commit/%H) %s' --reverse)
+  --pretty=format:'* [view commit](https://github.com/AndriyKalashnykov/gotest/commit/%H) %s' --reverse)
 
 {
   echo "<!-- START ${NEXT_TAG} -->"

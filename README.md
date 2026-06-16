@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://app.renovatebot.com/dashboard#github/AndriyKalashnykov/gotest)
 
-# gotest — Go CLI Playground
+# Go CLI Playground
 
 A Go CLI playground and proof-of-concept built with **Cobra** (commands), **Viper** (config),
 and **GoReleaser** (release automation). It demonstrates reflection-based struct-tag parsing and
@@ -16,7 +16,7 @@ dev toolchain, a `static-check` quality gate (staticcheck + govulncheck + Trivy 
 
 | Component | Technology |
 |-----------|------------|
-| Language | Go 1.25 (see `go.mod`) |
+| Language | Go 1.26 (see `go.mod`) |
 | CLI framework | [Cobra](https://github.com/spf13/cobra) |
 | Configuration | [Viper](https://github.com/spf13/viper) |
 | Release automation | [GoReleaser](https://goreleaser.com/) |
@@ -40,7 +40,7 @@ make run       # build and run gotest
 | Tool | Version | Purpose |
 |------|---------|---------|
 | [mise](https://mise.jdx.dev/) | latest | Provisions pinned dev tools (staticcheck, govulncheck, Trivy, gitleaks, act, node) |
-| [Go](https://go.dev/dl/) | 1.25+ | Go toolchain (see `go.mod`) |
+| [Go](https://go.dev/dl/) | 1.26+ | Go toolchain (see `go.mod`) |
 | [GNU Make](https://www.gnu.org/software/make/) | 3.81+ | Build orchestration |
 | [Docker](https://www.docker.com/) | latest | Container image builds (optional) |
 
@@ -116,6 +116,7 @@ Run `make help` to see all available targets.
 | Target | Description |
 |--------|-------------|
 | `make static-check` | Run all static analysis (lint + vulncheck + secrets + trivy-fs) |
+| `make check-toolchain-alignment` | Verify the Go version matches across go.mod and .mise.toml |
 | `make lint` | Run staticcheck linter |
 | `make vulncheck` | Scan for known Go vulnerabilities (govulncheck) |
 | `make trivy-fs` | Scan filesystem dependencies and secrets for CVEs (Trivy) |
