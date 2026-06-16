@@ -16,10 +16,11 @@ make clean         # Clean build artifacts
 
 ## Project Structure
 
-- `main.go` - Entry point, struct parsing examples, version constant
-- `version.go` - CLI version command using go-version
-- `internal/cmd/` - Cobra CLI root command and configuration
-- `internal/calc/` - Math utilities with tests
+- `main.go` - Entry point and release version constant (grepped by `make release`)
+- `version.go` - `version` subcommand (go-version; build info injected via ldflags)
+- `internal/cmd/` - Cobra commands (`root`, `fields`) and Viper config
+- `internal/structtag/` - Reflection-based struct-tag field grouping (the core demo)
+- `internal/calc/` - Integer math helpers with table-driven tests
 - `hack/` - Release and tag management scripts
 - `.mise.toml` - Pinned dev tooling (staticcheck, govulncheck, Trivy, gitleaks, act, node)
 - `Dockerfile` - Alpine-based container image (built via goreleaser)

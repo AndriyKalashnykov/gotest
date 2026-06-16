@@ -50,6 +50,24 @@ Install [mise](https://mise.jdx.dev/getting-started.html), then provision the de
 make deps
 ```
 
+## Usage
+
+```bash
+# Print build information (version, commit, date) as JSON or YAML
+gotest version
+gotest version --short
+gotest version --output yaml
+
+# Demonstrate reflection-based struct-tag parsing: group a sample struct's
+# fields by a struct tag (default "validate") and print the result as JSON
+gotest fields
+gotest fields --tag validate
+```
+
+`gotest fields` reflects over a sample `Account` struct and groups its fields by
+tag value (`required`, `optional`, `optional,association`) — the core
+proof-of-concept this playground exists to demonstrate.
+
 ## Installation
 
 ### Binaries
