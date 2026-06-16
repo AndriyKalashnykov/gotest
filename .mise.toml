@@ -1,0 +1,12 @@
+# Pinned developer tooling for gotest.
+# `make deps` runs `mise install` to provision these; Renovate's `mise`
+# manager keeps them up to date. The Go toolchain is intentionally NOT pinned
+# here — it is single-sourced in go.mod (and CI consumes it via go-version-file)
+# to avoid a cross-file toolchain-alignment drift.
+[tools]
+node                                      = "22"
+"go:honnef.co/go/tools/cmd/staticcheck"   = "0.7.0"
+act                                       = "0.2.89"
+"go:golang.org/x/vuln/cmd/govulncheck"    = "1.3.0"
+trivy                                     = "0.71.1"
+gitleaks                                  = "8.30.1"

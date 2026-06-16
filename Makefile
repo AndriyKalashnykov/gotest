@@ -1,4 +1,9 @@
 .DEFAULT_GOAL := help
+SHELL := /bin/bash
+
+# mise provisions pinned dev tools (see .mise.toml). Put its shim dir and the
+# user-local bin dir on PATH so recipes resolve the tools deps just installed.
+export PATH := $(HOME)/.local/share/mise/shims:$(HOME)/.local/bin:$(PATH)
 
 APP_NAME       := gotest
 CURRENTTAG     := $(shell git describe --tags --abbrev=0 2>/dev/null || echo "dev")
@@ -7,14 +12,9 @@ commitSHA=$(shell git describe --dirty --always)
 dateStr=$(shell date +%s)
 DATE := $(shell /bin/date +%m-%d-%Y)
 
-VERSION := $(shell cat ./main.go | grep "const Version ="| cut -d"\"" -f2)
+VERSION := $(shell grep 'const Version =' main.go | cut -d'"' -f2)
 
 SEMVER_RE := ^v[0-9]+\.[0-9]+\.[0-9]+$$
-
-# === Tool Versions (pinned) ===
-STATICCHECK_VERSION := 0.6.0
-ACT_VERSION         := 0.2.87
-NVM_VERSION         := 0.40.4
 
 #help: @ List available tasks
 help:
@@ -22,25 +22,35 @@ help:
 	@echo "Commands :"
 	@grep -E '[a-zA-Z\.\-]+:.*?@ .*$$' $(MAKEFILE_LIST)| tr -d '#' | awk 'BEGIN {FS = ":.*?@ "}; {printf "\033[32m%-30s\033[0m - %s\n", $$1, $$2}'
 
-#deps: @ Install dependency tools (idempotent)
+#deps: @ Install pinned dev tools via mise (idempotent)
 deps:
-	@command -v staticcheck >/dev/null 2>&1 || go install honnef.co/go/tools/cmd/staticcheck@v$(STATICCHECK_VERSION)
-
-#deps-act: @ Install act for local CI (idempotent)
-deps-act: deps
-	@command -v act >/dev/null 2>&1 || { echo "Installing act $(ACT_VERSION)..."; \
-		curl -sSfL https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash -s -- -b /usr/local/bin v$(ACT_VERSION); \
-	}
+	@command -v mise >/dev/null 2>&1 || { echo "mise not found — install from https://mise.run"; exit 1; }
+	@mise install
 
 #all: @ Build all
 all: build
 
-#lint: @ Run linter
+#lint: @ Run staticcheck linter
 lint: deps
 	@staticcheck ./...
 
+#vulncheck: @ Scan for known Go vulnerabilities (govulncheck)
+vulncheck: deps
+	@govulncheck ./...
+
+#trivy-fs: @ Scan filesystem dependencies and secrets for CVEs (Trivy)
+trivy-fs: deps
+	@trivy fs --scanners vuln,secret --severity HIGH,CRITICAL --exit-code 1 --no-progress .
+
+#secrets: @ Scan the working tree for leaked secrets (gitleaks)
+secrets: deps
+	@gitleaks dir . --no-banner
+
+#static-check: @ Run all static analysis (lint + vulncheck + secrets + trivy-fs)
+static-check: lint vulncheck secrets trivy-fs
+
 #test: @ Run tests with coverage
-test: deps
+test:
 	@mkdir -p ./.bin/
 	@go test -v ./... -cover -coverprofile=./.bin/coverage.out
 
@@ -66,15 +76,9 @@ ifneq (,$(wildcard /usr/local/bin/gotest))
 	@sudo rm /usr/local/bin/gotest
 endif
 
-CNT := $(shell which -a gotest | wc -l)
-EXCODE := $(shell which -a gotest | wc -l >/dev/null; echo $$?)
-RES := $(shell test $(CNT) -gt 0 && echo $$?)
-
 #show: @ Show gotest binary locations
 show:
-ifeq ($(RES), 0)
-	@which -a gotest
-endif
+	@which -a gotest || true
 
 #run: @ Build and run gotest
 run: build
@@ -110,7 +114,7 @@ release: clean
 
 #update: @ Update dependency packages to latest versions
 update:
-	@export GOPRIVATE=$(GOPRIVATE); go get -u; go mod tidy
+	@go get -u; go mod tidy
 
 #version: @ Print current version(tag)
 version:
@@ -138,29 +142,20 @@ release-test-local: build
 	@goreleaser check
 	@goreleaser release --clean --snapshot
 
-#ci: @ Run lint, tests, and build (CI pipeline)
-ci: lint test build
+#ci: @ Run static analysis, tests, and build (CI pipeline)
+ci: static-check test build
 
 #ci-run: @ Run GitHub Actions workflow locally using act
-ci-run: deps-act
+ci-run: deps
 	@act push --container-architecture linux/amd64 \
 		--artifact-server-path /tmp/act-artifacts
 
-#renovate-bootstrap: @ Install nvm and npm for Renovate
-renovate-bootstrap:
-	@command -v node >/dev/null 2>&1 || { \
-		echo "Installing nvm $(NVM_VERSION)..."; \
-		curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v$(NVM_VERSION)/install.sh | bash; \
-		export NVM_DIR="$$HOME/.nvm"; \
-		[ -s "$$NVM_DIR/nvm.sh" ] && . "$$NVM_DIR/nvm.sh"; \
-		nvm install --lts; \
-	}
-
 #renovate-validate: @ Validate Renovate configuration
-renovate-validate: renovate-bootstrap
+renovate-validate: deps
 	@npx --yes renovate --platform=local
 
-.PHONY: help deps deps-act all lint test test-coverage-view build clean clean-all \
-	show run image-build changelog-generate tag tags-push release update version \
+.PHONY: help deps all lint vulncheck trivy-fs secrets static-check test \
+	test-coverage-view build clean clean-all show run image-build \
+	changelog-generate tag tags-push release update version \
 	tags-delete-local tags-delete-remote tags-delete-all tags-delete-current \
-	release-test-local ci ci-run renovate-bootstrap renovate-validate
+	release-test-local ci ci-run renovate-validate

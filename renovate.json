@@ -11,11 +11,17 @@
   "labels": [
     "dependencies"
   ],
+  "enabledManagers": [
+    "gomod",
+    "github-actions",
+    "dockerfile",
+    "mise"
+  ],
   "prConcurrentLimit": 50,
   "prHourlyLimit": 0,
-  "platformAutomerge": true,
+  "platformAutomerge": false,
   "automerge": true,
-  "automergeType": "branch",
+  "automergeType": "pr",
   "automergeStrategy": "squash",
   "ignoreTests": false,
   "postUpdateOptions": [
@@ -63,20 +69,21 @@
       "commitMessagePrefix": "chore(go): "
     },
     {
-      "description": "Group Docker images",
+      "description": "Group Docker base images",
       "matchManagers": [
-        "dockerfile",
-        "docker-compose"
+        "dockerfile"
       ],
       "groupName": "docker",
       "commitMessagePrefix": "chore(docker): "
     },
     {
-      "description": "Group Docker base images",
-      "matchDatasources": [
-        "docker"
+      "description": "Group mise-managed dev tools and hold each new version for 3 days so the upstream GitHub Release artifacts that mise's aqua:/go: backends install are published before the PR opens (prevents the tag-before-publish 404 on mise install)",
+      "matchManagers": [
+        "mise"
       ],
-      "groupName": "Docker dependencies"
+      "groupName": "dev-tools",
+      "commitMessagePrefix": "chore(tools): ",
+      "minimumReleaseAge": "3 days"
     }
   ]
 }
