@@ -10,7 +10,7 @@ set -euo pipefail
 
 OWNER=AndriyKalashnykov
 PROJECT=gotest
-BIN_DIR=/usr/local/bin
+BIN_DIR="${BIN_DIR:-/usr/local/bin}"   # override install location: BIN_DIR=~/bin ./get-gotest.sh
 
 VERSION_TO_INSTALL=${1:-}
 
