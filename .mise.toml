@@ -1,9 +1,14 @@
 # Pinned developer tooling for gotest.
 # `make deps` runs `mise install` to provision these; Renovate's `mise`
-# manager keeps them up to date. The Go toolchain is intentionally NOT pinned
-# here — it is single-sourced in go.mod (and CI consumes it via go-version-file)
-# to avoid a cross-file toolchain-alignment drift.
+# manager keeps them up to date.
+#
+# `go` is pinned here AND in go.mod: mise's `go:` backend builds staticcheck /
+# govulncheck from source, so it must use the SAME Go the project targets
+# (otherwise the binaries are built with the wrong toolchain and fail to analyse
+# newer-Go code). `make check-toolchain-alignment` enforces go.mod == .mise.toml,
+# and a Renovate cross-manager group bumps both together.
 [tools]
+go                                        = "1.26.4"
 node                                      = "24"
 "go:honnef.co/go/tools/cmd/staticcheck"   = "0.7.0"
 act                                       = "0.2.89"

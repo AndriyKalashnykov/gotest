@@ -46,8 +46,17 @@ trivy-fs: deps
 secrets: deps
 	@gitleaks dir . --no-banner
 
-#static-check: @ Run all static analysis (lint + vulncheck + secrets + trivy-fs)
-static-check: lint vulncheck secrets trivy-fs
+#check-toolchain-alignment: @ Verify the Go version matches across go.mod and .mise.toml
+check-toolchain-alignment:
+	@gomod=$$(grep -oE '^go [0-9.]+' go.mod | awk '{print $$2}'); \
+	mise=$$(grep -oE '^go[[:space:]]*=[[:space:]]*"[0-9.]+"' .mise.toml | grep -oE '[0-9.]+'); \
+	if [ "$$gomod" != "$$mise" ]; then \
+		echo "ERROR: Go version mismatch — go.mod=$$gomod .mise.toml=$$mise (bump both together)"; \
+		exit 1; \
+	fi
+
+#static-check: @ Run all static analysis (alignment + lint + vulncheck + secrets + trivy-fs)
+static-check: check-toolchain-alignment lint vulncheck secrets trivy-fs
 
 #test: @ Run tests with coverage
 test:
@@ -154,7 +163,7 @@ ci-run: deps
 renovate-validate: deps
 	@npx --yes renovate --platform=local
 
-.PHONY: help deps all lint vulncheck trivy-fs secrets static-check test \
+.PHONY: help deps all lint vulncheck trivy-fs secrets check-toolchain-alignment static-check test \
 	test-coverage-view build clean clean-all show run image-build \
 	changelog-generate tag tags-push release update version \
 	tags-delete-local tags-delete-remote tags-delete-all tags-delete-current \

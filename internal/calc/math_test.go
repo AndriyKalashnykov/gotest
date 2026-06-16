@@ -8,7 +8,7 @@ func TestAdd(t *testing.T) {
 	want := 10
 
 	if got != want {
-		t.Errorf("got %q, wanted %q", got, want)
+		t.Errorf("got %d, wanted %d", got, want)
 	}
 }
 
@@ -17,7 +17,7 @@ func TestSubtract(t *testing.T) {
 	want := -2
 
 	if got != want {
-		t.Errorf("got %q, wanted %q", got, want)
+		t.Errorf("got %d, wanted %d", got, want)
 	}
 }
 
