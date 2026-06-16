@@ -84,6 +84,19 @@
       "groupName": "dev-tools",
       "commitMessagePrefix": "chore(tools): ",
       "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Group the Go toolchain (go.mod directive + .mise.toml go pin) into one PR so both bump together — mise builds staticcheck/govulncheck with this Go, so it must match go.mod (enforced by `make check-toolchain-alignment`)",
+      "matchManagers": [
+        "gomod",
+        "mise"
+      ],
+      "matchDepNames": [
+        "go",
+        "golang"
+      ],
+      "groupName": "Go toolchain",
+      "commitMessagePrefix": "chore(go): "
     }
   ]
 }
