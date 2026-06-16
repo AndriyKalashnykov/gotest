@@ -1,3 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
-git tag -d $(git tag -l)
+# Delete every local tag (no-op when there are none).
+git tag -l | xargs -r git tag -d

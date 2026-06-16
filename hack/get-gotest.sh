@@ -1,55 +1,51 @@
 #!/bin/bash
+set -euo pipefail
 
-#set -x
+# Install the latest (or a specific) gotest release binary into /usr/local/bin.
+#
+#   ./get-gotest.sh                 # latest release
+#   ./get-gotest.sh 0.0.14          # a specific version
+#   curl -sfL https://raw.githubusercontent.com/AndriyKalashnykov/gotest/master/hack/get-gotest.sh | bash
+#   curl -sfL https://raw.githubusercontent.com/AndriyKalashnykov/gotest/master/hack/get-gotest.sh | bash -s 0.0.14
 
-LAUNCH_DIR=$(pwd); SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd $SCRIPT_DIR; cd ..; SCRIPT_PARENT_DIR=$(pwd);
-
-MP_DIR=/tmp
-LOCAL_DIR=/usr/local
-BIN_DIR=$LOCAL_DIR/bin
-TGZ_EXT=.tgz
-TAR_GZ_EXT=.tar.gz
+OWNER=AndriyKalashnykov
+PROJECT=gotest
+BIN_DIR=/usr/local/bin
 
 VERSION_TO_INSTALL=${1:-}
+
+# goreleaser archive names use a capitalized OS (Linux/Darwin/Windows) and
+# x86_64 for amd64; map uname's machine values to goreleaser's arch names.
+OS=$(uname)
+ARCH=$(uname -m)
+case "$ARCH" in
+	aarch64) ARCH=arm64 ;;
+	armv*)   ARCH=arm ;;
+esac
+
+# Resolve the latest release tag when no version was given.
+if [ -z "$VERSION_TO_INSTALL" ]; then
+	VERSION_TO_INSTALL=$(curl -sL "https://api.github.com/repos/$OWNER/$PROJECT/releases/latest" |
+		grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's/^v//')
+fi
+
 VERSION_INSTALLED=""
+if [ -x "$BIN_DIR/$PROJECT" ]; then
+	VERSION_INSTALLED=$("$BIN_DIR/$PROJECT" version -s | grep 'Version:' | awk '{print $2}' | sed 's/[^0-9.]//g')
+fi
 
-USER=AndriyKalashnykov
-PROJECT=gotest
+if [ "$VERSION_TO_INSTALL" = "$VERSION_INSTALLED" ]; then
+	echo "$PROJECT $VERSION_TO_INSTALL already installed"
+	exit 0
+fi
 
-# ./get-gotest.sh 0.0.1
-# curl -sfL  https://raw.githubusercontent.com/AndriyKalashnykov/gotest/master/hack/get-gotest.sh | bash
-# or
-# curl -sfL  https://raw.githubusercontent.com/AndriyKalashnykov/gotest/master/hack/get-gotest.sh | bash -s 0.0.9
+if [ -z "$VERSION_INSTALLED" ]; then
+	echo "Installing $PROJECT $VERSION_TO_INSTALL"
+else
+	echo "Replacing $PROJECT $VERSION_INSTALLED -> $VERSION_TO_INSTALL"
+fi
 
 sudo -v
-
-cd $TMP_DIR
-
-OS=$(echo $(uname))
-OS_LC=$(echo $(uname))
-ARCH=$(uname -m) ;
-
-if [ -z "${VERSION_TO_INSTALL}" ]; then
-    VERSION_TO_INSTALL=$(curl -sL https://api.github.com/repos/$USER/$PROJECT/releases/latest  | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's/^.//')
-fi
-
-if [ -f "$BIN_DIR/$PROJECT" ]; then
-    VERSION_INSTALLED=$($BIN_DIR/$PROJECT version -s | grep 'Version:' | awk '{printf("%s",$2)}' | sed 's/.*://' | sed 's/[^0-9.]*//g')
-fi
-
-# echo "VERSION_TO_INSTALL: $VERSION_TO_INSTALL"
-# echo "VERSION_INSTALLED: $VERSION_INSTALLED"
-
-if [ "${VERSION_TO_INSTALL}" != "${VERSION_INSTALLED}" ]; then
-    if [ -z $VERSION_INSTALLED ]; then
-        echo "Installing $PROJECT: $VERSION_TO_INSTALL"
-    else
-        echo "Replacing $PROJECT: $VERSION_INSTALLED > $VERSION_TO_INSTALL"
-    fi
-
-    curl -sSLf "https://github.com/$USER/$PROJECT/releases/download/v${VERSION_TO_INSTALL}/${PROJECT}_v${VERSION_TO_INSTALL}_${OS_LC}_${ARCH}${TAR_GZ_EXT}" | sudo tar -zx -C $BIN_DIR ${PROJECT}
-  else
-    echo "$PROJECT $VERSION_TO_INSTALL already installed"
-fi
-
-cd $LAUNCH_DIR
+url="https://github.com/$OWNER/$PROJECT/releases/download/v${VERSION_TO_INSTALL}/${PROJECT}_v${VERSION_TO_INSTALL}_${OS}_${ARCH}.tar.gz"
+curl -sSLf "$url" | sudo tar -zx -C "$BIN_DIR" "$PROJECT"
+echo "Installed $PROJECT $VERSION_TO_INSTALL to $BIN_DIR/$PROJECT"
