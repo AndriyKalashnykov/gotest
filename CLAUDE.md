@@ -17,7 +17,7 @@ make clean         # Clean build artifacts
 ## Project Structure
 
 - `main.go` - Entry point and release version constant (grepped by `make release`)
-- `version.go` - `version` subcommand (go-version; build info injected via ldflags)
+- `version.go` - `version` subcommand (build info injected via ldflags)
 - `internal/cmd/` - Cobra commands (`root`, `fields`) and Viper config
 - `internal/structtag/` - Reflection-based struct-tag field grouping (the core demo)
 - `internal/calc/` - Integer math helpers with table-driven tests
@@ -45,6 +45,15 @@ GitHub Actions workflows in `.github/workflows/`:
 | CI | `ci.yml` | push to master, PRs, `v*` tags | `changes` → `static-check`, `build`, `test` → `ci-pass` (via `make` targets) |
 | Release | `release.yml` | `v*` tags | GoReleaser build + GitHub release + GHCR push |
 | Cleanup | `cleanup-runs.yml` | weekly (Sunday) + manual | Delete old workflow runs (retain 7 days, min 5) |
+
+## Upgrade Backlog
+
+Deferred items from `/upgrade-analysis` (2026-06-16). No critical/security items.
+(Archived `go-homedir` → stdlib `os.UserHomeDir()` and stale `go-version` → inline
+formatting were both resolved 2026-06-16; direct deps are now cobra + viper only.)
+
+- [ ] **Dockerfile `alpine:latest@sha256:…`** — pin an explicit `alpine:3.XX@sha256` instead of the cosmetic `:latest` (covered by the deferred Docker image hardening / `/ship-it harden`).
+- [ ] **goreleaser `dockers` → `dockers_v2`** — the remaining goreleaser deprecation; migrate alongside the Docker image hardening.
 
 ## Skills
 
