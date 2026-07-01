@@ -111,8 +111,16 @@ release: clean
 		echo "ERROR: VERSION '$(VERSION)' is not valid semver (expected vMAJOR.MINOR.PATCH)"; \
 		exit 1; \
 	fi
+	@if git rev-parse -q --verify "refs/tags/$(VERSION)" >/dev/null 2>&1; then \
+		echo "ERROR: tag $(VERSION) already exists locally. Pick a new version or delete it: git tag -d $(VERSION)"; \
+		exit 1; \
+	fi
+	@if git ls-remote --exit-code --tags origin "refs/tags/$(VERSION)" >/dev/null 2>&1; then \
+		echo "ERROR: tag $(VERSION) already exists on origin. Pick a new version."; \
+		exit 1; \
+	fi
 	@echo -n "Are you sure to create and push ${VERSION} tag? [y/N] " && read ans && [ $${ans:-N} = y ]
-	@git commit -a -s -m "Cut ${VERSION} release"
+	@if [ -n "$$(git status --porcelain)" ]; then git commit -a -s -m "Cut ${VERSION} release"; else echo "clean tree — tagging HEAD"; fi
 	@git tag ${VERSION}
 	@git push origin ${VERSION}
 	@git push
