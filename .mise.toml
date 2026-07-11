@@ -8,7 +8,7 @@
 # newer-Go code). `make check-toolchain-alignment` enforces go.mod == .mise.toml,
 # and a Renovate cross-manager group bumps both together.
 [tools]
-go                                        = "1.26.4"
+go                                        = "1.26.5"
 node                                      = "24"
 "go:honnef.co/go/tools/cmd/staticcheck"   = "0.7.0"
 act                                       = "0.2.89"
